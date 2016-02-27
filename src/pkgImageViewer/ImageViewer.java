@@ -47,12 +47,18 @@ public class ImageViewer extends JFrame
 	
 	/** Select image directory button */
 	private JButton m_SelectImageDirBtn;
+        
+        /** Shift image left in queue button */
+	private JButton m_ShiftLeftBtn;
 	
 	/** Switch to previous image button */
 	private JButton m_PrevImageBtn;
 	
 	/** Switch to next image button */
 	private JButton m_NextImageBtn;
+        
+        /** Shift image right in queue button */
+	private JButton m_ShiftRightBtn;
 	
 	/** Exit button */
 	private JButton m_ExitBtn;
@@ -161,6 +167,21 @@ public class ImageViewer extends JFrame
 					}
 				});
 		m_ButtonPanel.add(m_SelectImageDirBtn);	
+                
+                m_ShiftLeftBtn = new JButton(new ImageIcon(getClass().getResource("Images/ShiftLeft.jpg")));
+
+		m_ShiftLeftBtn.setSize(20, 20);
+		m_ShiftLeftBtn.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
+		m_ShiftLeftBtn.setToolTipText("Click to shift image left in queue options.");
+		m_ShiftLeftBtn.addActionListener(
+				new ActionListener()
+				{
+					public void actionPerformed(ActionEvent e)
+					{
+						//Move image left
+					}
+				});
+		m_ButtonPanel.add(m_ShiftLeftBtn);	
 		
 		// Create the previous image button
 //		m_PrevImageBtn = new JButton(new ImageIcon("Images/BackArrow.jpg"));
@@ -194,7 +215,22 @@ public class ImageViewer extends JFrame
 						showNextImage();
 					}
 				});
-		m_ButtonPanel.add(m_NextImageBtn);	
+		m_ButtonPanel.add(m_NextImageBtn);
+                
+                m_ShiftRightBtn = new JButton(new ImageIcon(getClass().getResource("Images/ShiftRight.jpg")));
+
+		m_ShiftRightBtn.setSize(20, 20);
+		m_ShiftRightBtn.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
+		m_ShiftRightBtn.setToolTipText("Click to shift image right in queue options.");
+		m_ShiftRightBtn.addActionListener(
+				new ActionListener()
+				{
+					public void actionPerformed(ActionEvent e)
+					{
+						//Move image right
+					}
+				});
+		m_ButtonPanel.add(m_ShiftRightBtn);
 
 		// Create the exit button
 //		m_ExitBtn = new JButton(new ImageIcon("Images/Exit.jpg"));
