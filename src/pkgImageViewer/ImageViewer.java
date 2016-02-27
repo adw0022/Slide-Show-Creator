@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.Vector;
+import java.util.Collections;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -179,7 +180,7 @@ public class ImageViewer extends JFrame
 					public void actionPerformed(ActionEvent e)
 					{
 						//Move image left
-                                            showPreviousImage();
+                                            shiftImageLeft();
 					}
 				});
 		m_ButtonPanel.add(m_ShiftLeftBtn);	
@@ -229,7 +230,7 @@ public class ImageViewer extends JFrame
 					public void actionPerformed(ActionEvent e)
 					{
 						//Move image right
-                                            showNextImage();
+                                            shiftImageRight();
 					}
 				});
 		m_ButtonPanel.add(m_ShiftRightBtn);
@@ -386,8 +387,34 @@ public class ImageViewer extends JFrame
 	private void showPreviousImage()
 	{
 		if(m_iCurImageIdx > 0)
+		{			
+                        m_iCurImageIdx--; // Decrement to previous image
+			showImage(m_iCurImageIdx); // Show it
+		}
+	}
+        
+        //----------------------------------------------------------------------
+	/** Move Current image left by one. */
+	//----------------------------------------------------------------------
+	private void shiftImageLeft()
+	{
+		if(m_iCurImageIdx > 0)
 		{
-			m_iCurImageIdx--; // Decrement to previous image
+                        int temp = m_iCurImageIdx--;
+			Collections.swap(m_vImageNames, m_iCurImageIdx, temp);                        
+			showImage(m_iCurImageIdx); // Show it
+		}
+	}
+        
+        //----------------------------------------------------------------------
+	/** Move Current image right by one. */
+	//----------------------------------------------------------------------
+	private void shiftImageRight()
+	{
+		if(m_iCurImageIdx < (m_vImageNames.size() - 1))
+		{
+                        int temp = m_iCurImageIdx++;
+			Collections.swap(m_vImageNames, m_iCurImageIdx, temp);                        
 			showImage(m_iCurImageIdx); // Show it
 		}
 	}
