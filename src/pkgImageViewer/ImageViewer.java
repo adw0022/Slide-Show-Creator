@@ -305,15 +305,14 @@ public class ImageViewer extends JFrame
         		}
         	} // end for loop
         	m_iCurImageIdx = 0; // Initialize the current image index 
-        } // end if(chosenDir != null)
-        // You can add the loop below just to check.  Then comment it out
+        } // end if(chosenDir != null)        
         
-/*        for(int i=0; i< m_vImageNames.size(); i++)
+        for(int i=0; i< m_vImageNames.size(); i++)
         {
         	fileName = (String)(m_vImageNames.elementAt(i));
         	System.out.println(fileName);
         }
-*/        
+        
 	}
 	
 	//----------------------------------------------------------------------
