@@ -179,6 +179,7 @@ public class ImageViewer extends JFrame
 					public void actionPerformed(ActionEvent e)
 					{
 						//Move image left
+                                            showPreviousImage();
 					}
 				});
 		m_ButtonPanel.add(m_ShiftLeftBtn);	
@@ -228,6 +229,7 @@ public class ImageViewer extends JFrame
 					public void actionPerformed(ActionEvent e)
 					{
 						//Move image right
+                                            showNextImage();
 					}
 				});
 		m_ButtonPanel.add(m_ShiftRightBtn);
