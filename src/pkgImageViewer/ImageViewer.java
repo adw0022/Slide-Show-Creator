@@ -89,6 +89,8 @@ public class ImageViewer extends JFrame
 	
 	/** Time delay is using timer to change */
 	private int m_iTimeDelay = 5;
+        
+        private int m_iTransitionTypes = 1;
 	
 	//------------------------------------------
 	// Miscellaneous variables
@@ -157,14 +159,14 @@ public class ImageViewer extends JFrame
 
 		m_SlideSettings.setSize(20, 20);
 		m_SlideSettings.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
-		m_SlideSettings.setToolTipText("Click to open slide settings.");
+		m_SlideSettings.setToolTipText("Click to open transition settings.");
 		m_SlideSettings.addActionListener(
 				new ActionListener()
 				{
 					public void actionPerformed(ActionEvent e)
 					{
-						//Move image left
-                                            //shiftImageLeft();
+                                                //Handle setting the transition options
+						setTransitionOptions();
 					}
 				});
 		m_ButtonPanel.add(m_SlideSettings);
@@ -333,6 +335,22 @@ public class ImageViewer extends JFrame
 			m_iTimeDelay = dlg.getTimeDelay();
 		}
 		dlg.dispose(); // Destroy the dialog box
+	}
+        
+        private void setTransitionOptions()
+	{
+		int retVal;
+		
+		// Create and show a dialog box
+		SetTransitionOptionsDlg dlg1 = new SetTransitionOptionsDlg(this, true);
+		dlg1.setVisible(true); // show it
+		retVal = dlg1.getExitStatus();
+		if(retVal == 0) // If the user clicked OK get the values
+		{			
+			m_iTransitionTypes = dlg1.getTransitionTypes();
+			
+		}
+		dlg1.dispose(); // Destroy the dialog box
 	}
 	
 	//----------------------------------------------------------------------
