@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.Vector;
 import java.util.Collections;
+import javax.swing.UIManager;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -18,8 +19,8 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JToolBar;
 import javax.swing.Timer;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.BevelBorder;
 
 //=============================================================================
@@ -122,7 +123,7 @@ public class ImageViewer extends JFrame
 		this.setLocation(50, 50); // Set window location on screen
 		this.setTitle("ImageViewer");
 		this.getContentPane().setLayout(null); // We'll do our own layouts, thank you.
-		this.getContentPane().setBackground(Color.gray); // Set visible area to gray
+		this.getContentPane().setBackground(Color.DARK_GRAY); // Set visible area to gray
 
 		// Create the image panel
 		m_ImagePanel = new ImagePanel(this);
@@ -132,7 +133,7 @@ public class ImageViewer extends JFrame
 		m_ButtonPanel = new JPanel();
 		m_ButtonPanel.setSize(this.getSize().width-50, 35);
 		m_ButtonPanel.setLocation(20, this.getSize().height-80);
-		m_ButtonPanel.setBackground(Color.lightGray); // Set the panel color
+		m_ButtonPanel.setBackground(Color.LIGHT_GRAY); // Set the panel color
 		m_ButtonPanel.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
 		// Use the default Flow Layout manager
 		this.getContentPane().add(m_ButtonPanel);
@@ -554,7 +555,25 @@ public class ImageViewer extends JFrame
 		//  operating system.  Main just creates an ImageViewer object.
 		//  To follow the execution trail from here go to the ImageViewer
 		//  constructor.
-		ImageViewer IV = new ImageViewer();
+	 
+                try {
+                   // Set System L&F
+                    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+                } 
+                catch (UnsupportedLookAndFeelException e) {
+                   // handle exception
+                }
+                catch (ClassNotFoundException e) {
+                   // handle exception
+                }
+                catch (InstantiationException e) {
+                   // handle exception
+                }
+                catch (IllegalAccessException e) {
+                   // handle exception
+                }
+                             ImageViewer IV = new ImageViewer();
+              
 	}
 
 }
