@@ -33,7 +33,7 @@ public class ImagePanel extends JPanel
 		this.setLocation(20, 15);       // Set the location in the window
 		this.setBackground(Color.lightGray); // Set the panel color
 		this.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED)); // Give it a border
-		this.setLayout(null); // No layout manager.  We�ll place everything                
+		this.setLayout(null); // No layout manager.  We will place everything                
 	}
 	
 	//--------------------------------------------------------

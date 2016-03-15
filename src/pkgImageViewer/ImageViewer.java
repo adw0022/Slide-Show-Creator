@@ -18,6 +18,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JToolBar;
 import javax.swing.Timer;
 import javax.swing.border.BevelBorder;
 
@@ -45,6 +46,9 @@ public class ImageViewer extends JFrame
 	
 	/** Display Options button */
 	private JButton m_DisplayOptionsBtn;
+        
+        /** Display Settings button */
+        private JButton m_SlideSettings;
 	
 	/** Select image directory button */
 	private JButton m_SelectImageDirBtn;
@@ -60,9 +64,16 @@ public class ImageViewer extends JFrame
         
         /** Shift image right in queue button */
 	private JButton m_ShiftRightBtn;
+        
+        /** Play slide-show in full-screen mode */
+	private JButton m_PlayShow;
+        
+        /** Save slide-show layout */
+	private JButton m_SaveShow;
 	
 	/** Exit button */
-	private JButton m_ExitBtn;
+	private JButton m_ExitBtn;     
+         
 	
 	//------------------------------------------
 	// Display option variables
@@ -94,7 +105,7 @@ public class ImageViewer extends JFrame
 	/** Image currently displayed */
 	private Image  m_TheImage = null;	
 
-	/** Timer for slideshows */
+	/** Timer for slide-shows */
 	private Timer m_SSTimer;
 
 	//---------------------------------------------------
@@ -102,7 +113,7 @@ public class ImageViewer extends JFrame
 	//---------------------------------------------------
 	public ImageViewer()
 	{
-		//------------------------------------------
+            	//------------------------------------------
 		// Set all parameters for this JFrame object
 		//------------------------------------------
 		this.setSize(740, 600); // Make the window smaller than the screen
@@ -140,7 +151,23 @@ public class ImageViewer extends JFrame
 						setDisplayOptions();
 					}
 				});
-		m_ButtonPanel.add(m_DisplayOptionsBtn);	
+		m_ButtonPanel.add(m_DisplayOptionsBtn);
+                
+               m_SlideSettings = new JButton(new ImageIcon(getClass().getResource("Images/settings.png")));
+
+		m_SlideSettings.setSize(20, 20);
+		m_SlideSettings.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
+		m_SlideSettings.setToolTipText("Click to open slide settings.");
+		m_SlideSettings.addActionListener(
+				new ActionListener()
+				{
+					public void actionPerformed(ActionEvent e)
+					{
+						//Move image left
+                                            //shiftImageLeft();
+					}
+				});
+		m_ButtonPanel.add(m_SlideSettings);
 		
 		// Create the select image directory button
 //		m_SelectImageDirBtn = new JButton(new ImageIcon("Images/OpenDirectory.jpg"));
@@ -167,13 +194,14 @@ public class ImageViewer extends JFrame
 						}
 					}
 				});
-		m_ButtonPanel.add(m_SelectImageDirBtn);	
+		m_ButtonPanel.add(m_SelectImageDirBtn);
                 
+                                
                 m_ShiftLeftBtn = new JButton(new ImageIcon(getClass().getResource("Images/ShiftLeft.jpg")));
 
 		m_ShiftLeftBtn.setSize(20, 20);
 		m_ShiftLeftBtn.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
-		m_ShiftLeftBtn.setToolTipText("Click to shift image left in queue options.");
+		m_ShiftLeftBtn.setToolTipText("Click to shift image left in vector.");
 		m_ShiftLeftBtn.addActionListener(
 				new ActionListener()
 				{
@@ -223,7 +251,7 @@ public class ImageViewer extends JFrame
 
 		m_ShiftRightBtn.setSize(20, 20);
 		m_ShiftRightBtn.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
-		m_ShiftRightBtn.setToolTipText("Click to shift image right in queue options.");
+		m_ShiftRightBtn.setToolTipText("Click to shift image right in vector.");
 		m_ShiftRightBtn.addActionListener(
 				new ActionListener()
 				{
@@ -234,6 +262,34 @@ public class ImageViewer extends JFrame
 					}
 				});
 		m_ButtonPanel.add(m_ShiftRightBtn);
+                
+                m_PlayShow = new JButton(new ImageIcon(getClass().getResource("Images/play.png")));
+		m_PlayShow.setSize(20, 20);
+		m_PlayShow.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
+		m_PlayShow.setToolTipText("Click to Play slideshow.");
+		m_PlayShow.addActionListener(
+				new ActionListener()
+				{
+					public void actionPerformed(ActionEvent e)
+					{						
+						//insert code to play show
+					}
+				});
+		m_ButtonPanel.add(m_PlayShow);
+                
+                m_SaveShow = new JButton(new ImageIcon(getClass().getResource("Images/save.png")));
+		m_SaveShow.setSize(20, 20);
+		m_SaveShow.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
+		m_SaveShow.setToolTipText("Click to save slideshow.");
+		m_SaveShow.addActionListener(
+				new ActionListener()
+				{
+					public void actionPerformed(ActionEvent e)
+					{
+						//insert code to save show
+					}
+				});
+		m_ButtonPanel.add(m_SaveShow);
 
 		// Create the exit button
 //		m_ExitBtn = new JButton(new ImageIcon("Images/Exit.jpg"));
@@ -255,6 +311,8 @@ public class ImageViewer extends JFrame
 		// Make the window visible
 		this.setVisible(true);
 	}
+        
+        
 
 	//----------------------------------------------------------------------
 	/** Show a dialog box for the user to set the display options */
@@ -328,6 +386,7 @@ public class ImageViewer extends JFrame
         			// 1 == show only JPG      3 == show JPG and GIF
         			if((m_iShowTypes == 1) || (m_iShowTypes == 3))
         				m_vImageNames.add(fileName); // Add this one to the list
+                                        
         		}
         		else if((fileName.endsWith(".jpeg")) || (fileName.endsWith(".JPEG")))  
         		{
@@ -344,15 +403,17 @@ public class ImageViewer extends JFrame
         		}
         	} // end for loop
         	m_iCurImageIdx = 0; // Initialize the current image index 
-        } // end if(chosenDir != null)        
+        } // end if(chosenDir != null)
         
+        /*
         for(int i=0; i< m_vImageNames.size(); i++)
         {
         	fileName = (String)(m_vImageNames.elementAt(i));
         	System.out.println(fileName);
         }
-        
+        */
 	}
+        
 	
 	//----------------------------------------------------------------------
 	/** Show the image at index. */
