@@ -48,8 +48,11 @@ public class ImageViewer extends JFrame
 	/** Display Options button */
 	private JButton m_DisplayOptionsBtn;
         
-        /** Display Settings button */
+        /** Transition Settings button */
         private JButton m_SlideSettings;
+        
+        /** Sound Settings button */
+        private JButton m_SoundSettings;
 	
 	/** Select image directory button */
 	private JButton m_SelectImageDirBtn;
@@ -172,6 +175,22 @@ public class ImageViewer extends JFrame
 				});
 		m_ButtonPanel.add(m_SlideSettings);
 		
+                m_SoundSettings = new JButton(new ImageIcon(getClass().getResource("Images/sound.png")));
+
+		m_SoundSettings.setSize(20, 20);
+		m_SoundSettings.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
+		m_SoundSettings.setToolTipText("Click to open sound settings.");
+		m_SoundSettings.addActionListener(
+				new ActionListener()
+				{
+					public void actionPerformed(ActionEvent e)
+					{
+                                                //Handle setting the sound options						
+					}
+				});
+		m_ButtonPanel.add(m_SoundSettings);
+                
+                
 		// Create the select image directory button
 //		m_SelectImageDirBtn = new JButton(new ImageIcon("Images/OpenDirectory.jpg"));
 		m_SelectImageDirBtn = new JButton(new ImageIcon(getClass().getResource("Images/OpenDirectory.jpg")));
