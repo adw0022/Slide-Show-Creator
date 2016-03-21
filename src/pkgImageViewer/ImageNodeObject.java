@@ -14,8 +14,26 @@ public class ImageNodeObject {
     private String fileName;
     private int transitionNumber;
 
-    public ImageNodeObject(String name, int code) {
+    public ImageNodeObject(String name, int code)
+    {
       this.fileName = name;
       this.transitionNumber = code;
-   }
+    }
+    public String getName()
+        {
+            return fileName;
+        }
+    public int getTransition()
+        {
+            return transitionNumber;
+        }
+
+    public void setName(String name)
+        {
+            this.fileName = name;
+        }
+    public void setCode(int code)
+        {
+            this.transitionNumber = code;
+        }
 }
