@@ -104,6 +104,9 @@ public class ImageViewer extends JFrame
 	
 	/** Vector of image names */
 	private Vector m_vImageNames = null;
+        
+        /** Vector of transition identifier */
+	private Vector m_vTransitionNumber = null;
 	
 	/** Index of the current image */
 	private int m_iCurImageIdx;
@@ -423,25 +426,35 @@ public class ImageViewer extends JFrame
         		{
         			// 1 == show only JPG      3 == show JPG and GIF
         			if((m_iShowTypes == 1) || (m_iShowTypes == 3))
-        				m_vImageNames.add(new ImageNodeObject(fileName,0)); // Add this one to the list
+        				m_vImageNames.add(fileName); // Add this one to the list
                                         
         		}
         		else if((fileName.endsWith(".jpeg")) || (fileName.endsWith(".JPEG")))  
         		{
         			// 1 == show only JPG      3 == show JPG and GIF
         			if((m_iShowTypes == 1) || (m_iShowTypes == 3))
-        				m_vImageNames.add(new ImageNodeObject(fileName,0)); // Add this one to the list
+        				m_vImageNames.add(fileName); // Add this one to the list
         		}
         		// Is it a .gif file?
         		else if((fileName.endsWith(".gif")) || (fileName.endsWith(".GIF"))) // Is it a .gif file?
         		{
         			// 2 == show only GIF      3 == show JPG and GIF
         			if((m_iShowTypes == 2) || (m_iShowTypes == 3))
-        				m_vImageNames.add(new ImageNodeObject(fileName,0)); // Add this one to the list
+        				m_vImageNames.add(fileName); // Add this one to the list
         		}
         	} // end for loop
         	m_iCurImageIdx = 0; // Initialize the current image index 
         } // end if(chosenDir != null)
+        
+        // Create the vector of names
+        if(m_vTransitionNumber != null) // If we already have one
+        	m_vTransitionNumber.removeAllElements(); // Clean it out
+        else                      // If we don't have one
+        	m_vTransitionNumber = new Vector(); // Create a new one.
+        int temp = m_vImageNames.size();
+        for(int i=0; i<temp; i++){
+            m_vTransitionNumber.add(0);
+        }
         
         /*
         for(int i=0; i< m_vImageNames.size(); i++)
@@ -500,7 +513,8 @@ public class ImageViewer extends JFrame
 		if(m_iCurImageIdx > 0)
 		{
                         int temp = m_iCurImageIdx--;
-			Collections.swap(m_vImageNames, m_iCurImageIdx, temp);                        
+			Collections.swap(m_vImageNames, m_iCurImageIdx, temp);
+                        Collections.swap(m_vTransitionNumber, m_iCurImageIdx, temp); 
 			showImage(m_iCurImageIdx); // Show it
 		}
 	}
@@ -513,7 +527,8 @@ public class ImageViewer extends JFrame
 		if(m_iCurImageIdx < (m_vImageNames.size() - 1))
 		{
                         int temp = m_iCurImageIdx++;
-			Collections.swap(m_vImageNames, m_iCurImageIdx, temp);                        
+			Collections.swap(m_vImageNames, m_iCurImageIdx, temp);
+                        Collections.swap(m_vTransitionNumber, m_iCurImageIdx, temp);
 			showImage(m_iCurImageIdx); // Show it
 		}
 	}
