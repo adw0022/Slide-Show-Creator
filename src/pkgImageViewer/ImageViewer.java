@@ -423,21 +423,21 @@ public class ImageViewer extends JFrame
         		{
         			// 1 == show only JPG      3 == show JPG and GIF
         			if((m_iShowTypes == 1) || (m_iShowTypes == 3))
-        				m_vImageNames.add(fileName); // Add this one to the list
+        				m_vImageNames.add(new ImageNodeObject(fileName,0)); // Add this one to the list
                                         
         		}
         		else if((fileName.endsWith(".jpeg")) || (fileName.endsWith(".JPEG")))  
         		{
         			// 1 == show only JPG      3 == show JPG and GIF
         			if((m_iShowTypes == 1) || (m_iShowTypes == 3))
-        				m_vImageNames.add(fileName); // Add this one to the list
+        				m_vImageNames.add(new ImageNodeObject(fileName,0)); // Add this one to the list
         		}
         		// Is it a .gif file?
         		else if((fileName.endsWith(".gif")) || (fileName.endsWith(".GIF"))) // Is it a .gif file?
         		{
         			// 2 == show only GIF      3 == show JPG and GIF
         			if((m_iShowTypes == 2) || (m_iShowTypes == 3))
-        				m_vImageNames.add(fileName); // Add this one to the list
+        				m_vImageNames.add(new ImageNodeObject(fileName,0)); // Add this one to the list
         		}
         	} // end for loop
         	m_iCurImageIdx = 0; // Initialize the current image index 
