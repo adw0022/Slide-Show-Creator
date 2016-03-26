@@ -22,6 +22,9 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.BevelBorder;
+import java.awt.image.BufferedImage;
+import java.lang.String;
+import java.awt.GridLayout;
 
 //=============================================================================
 /** Class: ImageViewer
@@ -41,9 +44,18 @@ public class ImageViewer extends JFrame
 	
 	/** Panel displaying the images */
 	public ImagePanel m_ImagePanel;
-	
+        
+        /* Panel displaying series of thumbnails */
+        public ImageThumbnail m_iThumb; 
+        
+        /** Image used for displaying thumbnail**/
+        public BufferedImage m_theImage;
+                
 	/** Panel holding the buttons */
 	private JPanel m_ButtonPanel;
+        
+        /** Panel holding the thumbnail */
+	private JPanel m_ThumbPanel;
 	
 	/** Display Options button */
 	private JButton m_DisplayOptionsBtn;
@@ -104,9 +116,18 @@ public class ImageViewer extends JFrame
 	
 	/** Vector of image names */
 	private Vector m_vImageNames = null;
+        
+        /** Vector of transition identifier */
+	private Vector m_vTransitionNumber = null;
 	
 	/** Index of the current image */
 	private int m_iCurImageIdx;
+        
+        /** Vector of image thumbnail names */
+	private Vector m_vThumbNames = null;
+                      	
+	/** Index of the current image thumbnail */
+	private int m_iCurThumbIdx;
 	
 	/** Image currently displayed */
 	private Image  m_TheImage = null;	
@@ -131,6 +152,32 @@ public class ImageViewer extends JFrame
 		// Create the image panel
 		m_ImagePanel = new ImagePanel(this);
 		this.getContentPane().add(m_ImagePanel); // Add the panel to the window
+                
+                //Create Thumbnail panel
+                createThumbPanel();
+                
+//                m_ThumbPanel = new JPanel(new GridLayout(4,3));
+//		m_ThumbPanel.setSize(this.getSize().width-400, 540);
+//		m_ThumbPanel.setLocation(725, this.getSize().height-585);
+//		m_ThumbPanel.setBackground(Color.lightGray); // Set the panel color
+//		m_ThumbPanel.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
+//		
+//                m_ThumbPanel.add(new JButton(new ImageIcon(getClass().getResource("Images/DisplayOptions.jpg"))));
+//                m_ThumbPanel.add(new JButton(new ImageIcon(getClass().getResource("Images/DisplayOptions.jpg"))));
+//                m_ThumbPanel.add(new JButton(new ImageIcon(getClass().getResource("Images/DisplayOptions.jpg"))));
+//                m_ThumbPanel.add(new JButton(new ImageIcon(getClass().getResource("Images/DisplayOptions.jpg"))));
+//                m_ThumbPanel.add(new JButton(new ImageIcon(getClass().getResource("Images/DisplayOptions.jpg"))));
+//                m_ThumbPanel.add(new JButton(new ImageIcon(getClass().getResource("Images/DisplayOptions.jpg"))));
+//                m_ThumbPanel.add(new JButton(new ImageIcon(getClass().getResource("Images/DisplayOptions.jpg"))));
+//                m_ThumbPanel.add(new JButton(new ImageIcon(getClass().getResource("Images/DisplayOptions.jpg"))));
+//                m_ThumbPanel.add(new JButton(new ImageIcon(getClass().getResource("Images/DisplayOptions.jpg"))));
+//                m_ThumbPanel.add(new JButton(new ImageIcon(getClass().getResource("Images/DisplayOptions.jpg"))));
+//                m_ThumbPanel.add(new JButton(new ImageIcon(getClass().getResource("Images/DisplayOptions.jpg"))));
+//                m_ThumbPanel.add(new JButton(new ImageIcon(getClass().getResource("Images/DisplayOptions.jpg"))));
+//                
+//                
+//                // Use the default Flow Layout manager
+//		this.getContentPane().add(m_ThumbPanel);
 
 		// Create the button panel
 		m_ButtonPanel = new JPanel();
@@ -443,6 +490,16 @@ public class ImageViewer extends JFrame
         	m_iCurImageIdx = 0; // Initialize the current image index 
         } // end if(chosenDir != null)
         
+        // Create the vector of names
+        if(m_vTransitionNumber != null) // If we already have one
+        	m_vTransitionNumber.removeAllElements(); // Clean it out
+        else                      // If we don't have one
+        	m_vTransitionNumber = new Vector(); // Create a new one.
+        int temp = m_vImageNames.size();
+        for(int i=0; i<temp; i++){
+            m_vTransitionNumber.add(0);
+        }
+        
         /*
         for(int i=0; i< m_vImageNames.size(); i++)
         {
@@ -451,6 +508,136 @@ public class ImageViewer extends JFrame
         }
         */
 	}
+        
+        //----------------------------------------------------------------------
+	/** Show image thumbnail of the chosen file. */
+	//----------------------------------------------------------------------
+	
+        private void createThumbnail() 
+        {         
+            ImageThumbnail m_iThumb = new ImageThumbnail();
+            File chosenDir = new File(m_sImageDir);
+            String dir = chosenDir.getAbsolutePath();
+            m_iThumb.run(dir);
+        }
+        
+        //----------------------------------------------------------------------
+	/** Build the list of images thumbnail to show */
+	//----------------------------------------------------------------------
+	private void buildThumbList()
+	{
+            File		chosenDir; // Directory of images
+            File[]		fileList;  // Array of files in the directory
+            String		fileName;  // Name of a file
+            File                thumbNames = null;
+
+
+            // Create the vector of names
+            if(m_vThumbNames != null) // If we already have one
+                    m_vThumbNames.removeAllElements(); // Clean it out
+            else                      // If we don't have one
+                    m_vThumbNames = new Vector(); // Create a new one.
+            // Open the directory
+            chosenDir = new File(m_sImageDir);
+            if(chosenDir != null)	// If we opened it successfully
+            {
+                    fileList = chosenDir.listFiles(); // Get a list of all files
+                    // Go through the list and get the complete path of all image
+                    // files (those with .jpg and/or .gif)
+                    for(int i=0; i<fileList.length; i++)
+                    {
+                            fileName = fileList[i].getAbsolutePath(); // Get path name
+                            // Is it a .jpg file?
+                            if(fileName.endsWith(".thumb.jpg"))   
+                            {
+                                    // 1 == show only JPG      3 == show JPG and GIF
+                                    //if((m_iShowTypes == 1) || (m_iShowTypes == 3))
+
+                                            m_vThumbNames.add(fileName); // Add this one to the list
+                                            File file = new File(fileName);
+                                            file.renameTo(new File ("/Users/Andrew/Documents/GitHub/Slide-Show-Creator/src/Thumbnails" + file.getName()));
+
+
+                            }
+
+                    } // end for loop
+                    m_iCurThumbIdx = 0; // Initialize the current image index 
+            } // end if(chosenDir != null)        
+
+
+           
+            for(int i=0; i< m_vThumbNames.size(); i++)
+            {
+                    fileName = (String)(m_vThumbNames.elementAt(i));
+                    System.out.println(fileName);
+                    File file = new File(fileName);
+                    file.renameTo(new File ("/Users/Andrew/Documents/GitHub/Slide-Show-Creator/src/Thumbnails"));
+
+            }
+        
+	}
+        
+        
+        //----------------------------------------------------------------------
+	/** Create Thumbnail panel. */
+	//----------------------------------------------------------------------
+        public void createThumbPanel()
+        {
+//              this.setSize(740, 600); // Make the window smaller than the screen
+//		this.setLocation(50, 50); // Set window location on screen
+//		this.setTitle("ImageViewer");
+//		this.getContentPane().setLayout(null); // We'll do our own layouts, thank you.
+//		this.getContentPane().setBackground(Color.gray); // Set visible area to gray
+//            
+//            
+//                m_ThumbPanel = new JPanel(new GridLayout(4,3));
+//		m_ThumbPanel.setSize(this.getSize().width-400, 540);
+//		m_ThumbPanel.setLocation(725, this.getSize().height-585);
+//		m_ThumbPanel.setBackground(Color.lightGray); // Set the panel color
+//		m_ThumbPanel.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
+//                m_ThumbPanel.add(new JButton(new ImageIcon(getClass().getResource("Images/DisplayOptions.jpg"))));
+////                
+            
+                m_ThumbPanel = new JPanel(new GridLayout(4,3));
+		m_ThumbPanel.setSize(740-400, 540);
+		m_ThumbPanel.setLocation(725, 600-585);
+		m_ThumbPanel.setBackground(Color.lightGray); // Set the panel color
+		m_ThumbPanel.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
+                m_ThumbPanel.add(new JButton(new ImageIcon(getClass().getResource("Images/DisplayOptions.jpg"))));
+                
+//                                JButton button = new JButton();
+//                 try {
+//                   Image img = ImageIO.read(getClass().getResource("Images/DisplayOptions.jpg"));
+//                   button.setIcon(new ImageIcon(img));
+//                   m_ThumbPanel.add(button);
+//                 } catch (IOException ex) {
+//                 }
+////                  
+//                File thumbFile = new File("/Users/sydney/Desktop/CS 499/Slide-Show-Creator/src/pkgImageViewer/Thumbnail/");
+//                File [] listOfFiles = thumbFile.listFiles();
+//                for (int i=0; i< listOfFiles.length; i++)
+//                {
+//                    String thumbName = listOfFiles[i].getName();
+//                    m_ThumbPanel.add(new JButton(new ImageIcon(getClass().getResource("Thumbnail/"+ thumbName))));
+//                }
+//		
+                 
+//                m_ThumbPanel.add(new JButton(new ImageIcon(getClass().getResource("Images/DisplayOptions.jpg"))));
+//                m_ThumbPanel.add(new JButton(new ImageIcon(getClass().getResource("Images/DisplayOptions.jpg"))));
+//                m_ThumbPanel.add(new JButton(new ImageIcon(getClass().getResource("Images/DisplayOptions.jpg"))));
+//                m_ThumbPanel.add(new JButton(new ImageIcon(getClass().getResource("Images/DisplayOptions.jpg"))));
+//                m_ThumbPanel.add(new JButton(new ImageIcon(getClass().getResource("Images/DisplayOptions.jpg"))));
+//                m_ThumbPanel.add(new JButton(new ImageIcon(getClass().getResource("Images/DisplayOptions.jpg"))));
+//                m_ThumbPanel.add(new JButton(new ImageIcon(getClass().getResource("Images/DisplayOptions.jpg"))));
+//                m_ThumbPanel.add(new JButton(new ImageIcon(getClass().getResource("Images/DisplayOptions.jpg"))));
+//                m_ThumbPanel.add(new JButton(new ImageIcon(getClass().getResource("Images/DisplayOptions.jpg"))));
+//                m_ThumbPanel.add(new JButton(new ImageIcon(getClass().getResource("Images/DisplayOptions.jpg"))));
+//                m_ThumbPanel.add(new JButton(new ImageIcon(getClass().getResource("Images/DisplayOptions.jpg"))));
+
+                
+                // Use the default Flow Layout manager
+		this.getContentPane().add(m_ThumbPanel);
+        }
         
 	
 	//----------------------------------------------------------------------
@@ -500,7 +687,8 @@ public class ImageViewer extends JFrame
 		if(m_iCurImageIdx > 0)
 		{
                         int temp = m_iCurImageIdx--;
-			Collections.swap(m_vImageNames, m_iCurImageIdx, temp);                        
+			Collections.swap(m_vImageNames, m_iCurImageIdx, temp);
+                        Collections.swap(m_vTransitionNumber, m_iCurImageIdx, temp); 
 			showImage(m_iCurImageIdx); // Show it
 		}
 	}
@@ -513,7 +701,8 @@ public class ImageViewer extends JFrame
 		if(m_iCurImageIdx < (m_vImageNames.size() - 1))
 		{
                         int temp = m_iCurImageIdx++;
-			Collections.swap(m_vImageNames, m_iCurImageIdx, temp);                        
+			Collections.swap(m_vImageNames, m_iCurImageIdx, temp);
+                        Collections.swap(m_vTransitionNumber, m_iCurImageIdx, temp);
 			showImage(m_iCurImageIdx); // Show it
 		}
 	}
@@ -595,4 +784,5 @@ public class ImageViewer extends JFrame
               
 	}
 
+   
 }

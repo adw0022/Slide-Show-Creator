@@ -26,7 +26,7 @@ public class ImagePanel extends JPanel
 	public ImagePanel(JFrame parent)
 	{            
 		m_Parent = parent; 
-                m_Parent.setExtendedState(m_Parent.MAXIMIZED_BOTH); 
+                //m_Parent.setExtendedState(m_Parent.MAXIMIZED_BOTH); 
                 m_Parent.setVisible(true);
 		this.setSize(m_Parent.getSize().width-50, 
 				m_Parent.getSize().height-100);   // Set the size 
