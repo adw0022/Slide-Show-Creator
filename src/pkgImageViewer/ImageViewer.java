@@ -25,6 +25,8 @@ import javax.swing.border.BevelBorder;
 import java.awt.image.BufferedImage;
 import java.lang.String;
 import java.awt.GridLayout;
+import javax.xml.datatype.Duration;
+
 
 //=============================================================================
 /** Class: ImageViewer
@@ -581,7 +583,7 @@ public class ImageViewer extends JFrame
         //----------------------------------------------------------------------
 	/** Create Thumbnail panel. */
 	//----------------------------------------------------------------------
-        public void createThumbPanel()
+        private void createThumbPanel()
         {
 //              this.setSize(740, 600); // Make the window smaller than the screen
 //		this.setLocation(50, 50); // Set window location on screen
@@ -750,7 +752,8 @@ public class ImageViewer extends JFrame
 			});
 		m_SSTimer.setRepeats(true); // Repeat till we kill it
 		m_SSTimer.start();  // Start the timer
-	}
+	}       
+        
 	
 	//----------------------------------------------------------------------
 	/** Main function for this demonstration
