@@ -11,6 +11,10 @@ import java.io.File;
 import java.util.Vector;
 import java.util.Collections;
 import javax.swing.UIManager;
+//////////////////////////////
+import java.awt.KeyEventDispatcher;
+import java.awt.KeyboardFocusManager;
+import java.awt.event.KeyEvent;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -25,6 +29,9 @@ import javax.swing.border.BevelBorder;
 import java.awt.image.BufferedImage;
 import java.lang.String;
 import java.awt.GridLayout;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.xml.datatype.Duration;
 
 
@@ -136,6 +143,9 @@ public class ImageViewer extends JFrame
 
 	/** Timer for slide-shows */
 	private Timer m_SSTimer;
+        
+        ///////////////////////////
+        public int x;
 
 	//---------------------------------------------------
 	/** Default constructor */
@@ -344,9 +354,51 @@ public class ImageViewer extends JFrame
 					public void actionPerformed(ActionEvent e)
 					{						
 						//insert code to play show
+                                            //Toolkit tk = Toolkit.getDefaultToolkit();
+                                            
+                                            // Create a javax.swing.timer
+               
+		m_SSTimer = new Timer(m_iTimeDelay * 1000,
+			new ActionListener()
+			{
+				public void actionPerformed(ActionEvent e)
+				{
+                                    if (x <= 8)
+                                    {
+                                        //m_TheImage = tk.getImage((String)(m_vImageNames.elementAt(idx)));                                            
+                                            String temp = (String) (m_vImageNames.elementAt(x));
+                                            try {
+                                                FullScreen Test = new FullScreen(temp);
+                                            } catch (IOException ex) {
+                                                Logger.getLogger(ImageViewer.class.getName()).log(Level.SEVERE, null, ex);
+                                            }
+                                            x++;
+                                    }
+                                    else
+                                    {
+                                            m_SSTimer.stop();
+                                    }
+				}
+			});
+		m_SSTimer.setRepeats(true); // Repeat till we kill it
+		m_SSTimer.start();  // Start the timer
+//                                            for(int idx = 0; idx<(m_vImageNames.size()); idx++)
+//                                            {
+//                                            //m_TheImage = tk.getImage((String)(m_vImageNames.elementAt(idx)));
+//                                            String temp = (String) (m_vImageNames.elementAt(idx));
+//                                            try {
+//                                                FullScreen Test = new FullScreen(temp);
+//                                            } catch (IOException ex) {
+//                                                Logger.getLogger(ImageViewer.class.getName()).log(Level.SEVERE, null, ex);
+//                                            }
+//                                            }
 					}
-				});
+                                        });
+                                     //}
+				
 		m_ButtonPanel.add(m_PlayShow);
+                
+                
                 
                 m_SaveShow = new JButton(new ImageIcon(getClass().getResource("Images/save.png")));
 		m_SaveShow.setSize(20, 20);
@@ -381,9 +433,8 @@ public class ImageViewer extends JFrame
 		
 		// Make the window visible
 		this.setVisible(true);
-	}
-        
-        
+	}       
+         
 
 	//----------------------------------------------------------------------
 	/** Show a dialog box for the user to set the display options */
@@ -645,6 +696,7 @@ public class ImageViewer extends JFrame
 	//----------------------------------------------------------------------
 	/** Show the image at index. */
 	//----------------------------------------------------------------------
+        @SuppressWarnings("empty-statement")
 	private void showImage(int idx)
 	{
         File		imageFile; // the jpg or gif file
