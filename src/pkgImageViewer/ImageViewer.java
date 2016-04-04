@@ -29,6 +29,7 @@ import javax.swing.border.BevelBorder;
 import java.awt.image.BufferedImage;
 import java.lang.String;
 import java.awt.GridLayout;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -36,6 +37,7 @@ import java.nio.file.Paths;
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.zip.ZipOutputStream;
 import javax.xml.datatype.Duration;
 
 
@@ -52,6 +54,10 @@ import javax.xml.datatype.Duration;
 //=============================================================================
 public class ImageViewer extends JFrame
 {
+
+    private static void addFolderToZip(String string, String srcFolder, ZipOutputStream zip) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 	/** Programmer ID */
 	public String m_sID = "Dr. Rick Coleman";
 	
@@ -415,18 +421,41 @@ public class ImageViewer extends JFrame
 					{
                                             if(m_vImageNames != null)
                                             {
-                                            Path currentRelativePath = Paths.get("");
-                                            String s = currentRelativePath.toAbsolutePath().toString();
-                                            s = s.concat("/savefolder");
-                                            new File(s).mkdir();
-                                            for(int i=0; i< m_vImageNames.size(); i++)
-                                            {
-//                                                    try {
-//                                                        Files.copy(source, destination, REPLACE_EXISTING);
-//                                                    } catch (IOException ex) {
-//                                                        Logger.getLogger(ImageViewer.class.getName()).log(Level.SEVERE, null, ex);
-//                                                    }
-                                            }
+                                                Path currentRelativePath = Paths.get("");
+                                                String s = currentRelativePath.toAbsolutePath().toString();
+                                                s = s.concat("/savefile");
+                                                new File(s).mkdir();
+                                                for(int i=0; i< m_vImageNames.size(); i++)
+                                                {
+                                                    String place = "/";
+                                                    place = place.concat(String.valueOf(i));
+                                                    String destemp = s;
+                                                    String imgpath = (String) m_vImageNames.get(i);
+                                                    File source = new File(imgpath);
+                                                    if((imgpath.endsWith(".jpg")) || (imgpath.endsWith(".JPG")))  
+                                                    {
+                                                        place = place.concat(".jpg");
+                                                        destemp = destemp.concat(place);
+                                                    }
+                                                    else if((imgpath.endsWith(".jpeg")) || (imgpath.endsWith(".JPEG")))  
+                                                    {
+                                                        place = place.concat(".jpeg");
+                                                        destemp = destemp.concat(place);
+                                                    }    
+                                                    else if((imgpath.endsWith(".gif")) || (imgpath.endsWith(".GIF")))
+                                                    {
+                                                        place = place.concat(".gif");
+                                                        destemp = destemp.concat(place);
+                                                    }
+                                                    File destination = new File(destemp);
+                                                    try {
+                                                        Files.copy(source.toPath(), destination.toPath(), REPLACE_EXISTING);
+                                                    } catch (IOException ex) {
+                                                        Logger.getLogger(ImageViewer.class.getName()).log(Level.SEVERE, null, ex);
+                                                    }
+                                                }
+                                                String destzip = s.concat(".zip");
+                                                
                                             }
 					}
 				});
@@ -857,5 +886,6 @@ public class ImageViewer extends JFrame
               
 	}
 
+       
    
 }
