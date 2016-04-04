@@ -30,6 +30,10 @@ import java.awt.image.BufferedImage;
 import java.lang.String;
 import java.awt.GridLayout;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.datatype.Duration;
@@ -409,7 +413,21 @@ public class ImageViewer extends JFrame
 				{
 					public void actionPerformed(ActionEvent e)
 					{
-						//insert code to save show
+                                            if(m_vImageNames != null)
+                                            {
+                                            Path currentRelativePath = Paths.get("");
+                                            String s = currentRelativePath.toAbsolutePath().toString();
+                                            s = s.concat("/savefolder");
+                                            new File(s).mkdir();
+                                            for(int i=0; i< m_vImageNames.size(); i++)
+                                            {
+//                                                    try {
+//                                                        Files.copy(source, destination, REPLACE_EXISTING);
+//                                                    } catch (IOException ex) {
+//                                                        Logger.getLogger(ImageViewer.class.getName()).log(Level.SEVERE, null, ex);
+//                                                    }
+                                            }
+                                            }
 					}
 				});
 		m_ButtonPanel.add(m_SaveShow);
