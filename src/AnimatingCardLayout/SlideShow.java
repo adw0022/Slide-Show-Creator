@@ -142,7 +142,7 @@ public class SlideShow extends JFrame
 //          return;
 //      }
   
-      final File imagePath = new File ("C:\\Users\\Andrew\\Documents\\GitHub\\Slide-Show-Creator\\src\\pkgImageViewer\\Images");
+      final File imagePath = new File ("C:\\Users\\Aaron Phillips\\Documents\\GitHub\\Slide-Show-Creator\\src\\pkgImageViewer\\Images");
        
       if (!imagePath.isDirectory ())
       {

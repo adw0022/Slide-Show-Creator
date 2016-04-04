@@ -29,7 +29,9 @@ import javax.swing.border.BevelBorder;
 import java.awt.image.BufferedImage;
 import java.lang.String;
 import java.awt.GridLayout;
+import java.io.BufferedWriter;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -424,7 +426,15 @@ public class ImageViewer extends JFrame
                                                 Path currentRelativePath = Paths.get("");
                                                 String s = currentRelativePath.toAbsolutePath().toString();
                                                 s = s.concat("/savefile");
+                                                File settings = new File(s, "settings.txt");
                                                 new File(s).mkdir();
+                                                FileWriter fw = null;
+                                                    try {
+                                                        fw = new FileWriter(settings.getAbsoluteFile());
+                                                    } catch (IOException ex) {
+                                                        Logger.getLogger(ImageViewer.class.getName()).log(Level.SEVERE, null, ex);
+                                                    }
+                                                    BufferedWriter bw = new BufferedWriter(fw);
                                                 for(int i=0; i< m_vImageNames.size(); i++)
                                                 {
                                                     String place = "/";
@@ -453,6 +463,18 @@ public class ImageViewer extends JFrame
                                                     } catch (IOException ex) {
                                                         Logger.getLogger(ImageViewer.class.getName()).log(Level.SEVERE, null, ex);
                                                     }
+                                                    
+                                                    String tempbuffer = (String) m_vTransitionNumber.get(i);
+                                                    try {
+                                                        bw.write(tempbuffer);
+                                                    } catch (IOException ex) {
+                                                        Logger.getLogger(ImageViewer.class.getName()).log(Level.SEVERE, null, ex);
+                                                    }
+                                                }
+                                                try {
+                                                    bw.close();
+                                                } catch (IOException ex) {
+                                                    Logger.getLogger(ImageViewer.class.getName()).log(Level.SEVERE, null, ex);
                                                 }
                                                 String destzip = s.concat(".zip");
                                                 
@@ -597,7 +619,7 @@ public class ImageViewer extends JFrame
         	m_vTransitionNumber = new Vector(); // Create a new one.
         int temp = m_vImageNames.size();
         for(int i=0; i<temp; i++){
-            m_vTransitionNumber.add(0);
+            m_vTransitionNumber.add("0");
         }
         
         /*
