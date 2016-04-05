@@ -33,12 +33,16 @@ import java.io.BufferedWriter;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.SimpleFileVisitor;
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 import javax.xml.datatype.Duration;
 
@@ -437,7 +441,7 @@ public class ImageViewer extends JFrame
                                                     BufferedWriter bw = new BufferedWriter(fw);
                                                 for(int i=0; i< m_vImageNames.size(); i++)
                                                 {
-                                                    String place = "/";
+                                                    String place = "/image";
                                                     place = place.concat(String.valueOf(i));
                                                     String destemp = s;
                                                     String imgpath = (String) m_vImageNames.get(i);
@@ -467,6 +471,7 @@ public class ImageViewer extends JFrame
                                                     String tempbuffer = (String) m_vTransitionNumber.get(i);
                                                     try {
                                                         bw.write(tempbuffer);
+                                                        bw.newLine();
                                                     } catch (IOException ex) {
                                                         Logger.getLogger(ImageViewer.class.getName()).log(Level.SEVERE, null, ex);
                                                     }
@@ -477,7 +482,15 @@ public class ImageViewer extends JFrame
                                                     Logger.getLogger(ImageViewer.class.getName()).log(Level.SEVERE, null, ex);
                                                 }
                                                 String destzip = s.concat(".zip");
-                                                
+                                                Path destin = Paths.get(destzip);
+                                                Path sourcefile = Paths.get(s);
+                                                try {
+                                                    pack(sourcefile, destin);
+                                                } catch (IOException ex) {
+                                                    Logger.getLogger(ImageViewer.class.getName()).log(Level.SEVERE, null, ex);
+                                                }
+                                                File savedir = new File(s);
+                                                deleteDirectory(savedir);
                                             }
 					}
 				});
@@ -908,6 +921,44 @@ public class ImageViewer extends JFrame
               
 	}
 
+       public static void pack(final Path folder, final Path zipFilePath) throws IOException {
+    try (
+            FileOutputStream fos = new FileOutputStream(zipFilePath.toFile());
+            ZipOutputStream zos = new ZipOutputStream(fos)
+    ) {
+        Files.walkFileTree(folder, new SimpleFileVisitor<Path>() {
+            public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+                zos.putNextEntry(new ZipEntry(folder.relativize(file).toString()));
+                Files.copy(file, zos);
+                zos.closeEntry();
+                return FileVisitResult.CONTINUE;
+            }
+
+            public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException {
+                zos.putNextEntry(new ZipEntry(folder.relativize(dir).toString() + "/"));
+                zos.closeEntry();
+                return FileVisitResult.CONTINUE;
+            }
+
+        });
+    }
+}
        
+       public boolean deleteDirectory(File directory) {
+                if(directory.exists()){
+                    File[] files = directory.listFiles();
+                    if(null!=files){
+                        for(int i=0; i<files.length; i++) {
+                            if(files[i].isDirectory()) {
+                                deleteDirectory(files[i]);
+                            }
+                            else {
+                                files[i].delete();
+                            }
+                        }
+                    }
+                }
+                return(directory.delete());
+            }
    
 }
