@@ -131,7 +131,7 @@ public class ImageViewer extends JFrame
 	/** Time delay is using timer to change */
 	private int m_iTimeDelay = 5;
         
-        private int m_iTransitionTypes = 1;
+        public int m_iTransitionTypes = 0;
 	
 	//------------------------------------------
 	// Miscellaneous variables
@@ -162,6 +162,7 @@ public class ImageViewer extends JFrame
         
         ///////////////////////////
         public int x;
+        public int y;
 
 	//---------------------------------------------------
 	/** Default constructor */
@@ -524,7 +525,7 @@ public class ImageViewer extends JFrame
 		dlg.dispose(); // Destroy the dialog box
 	}
         
-        private void setTransitionOptions()
+        public void setTransitionOptions()
 	{
 		int retVal;
 		
@@ -535,10 +536,16 @@ public class ImageViewer extends JFrame
 		if(retVal == 0) // If the user clicked OK get the values
 		{			
 			m_iTransitionTypes = dlg1.getTransitionTypes();
-			
+                        			
 		}
-		dlg1.dispose(); // Destroy the dialog box
+		dlg1.dispose(); // Destroy the dialog box   
+                y = m_iTransitionTypes;
 	}
+        
+        public int getValue()
+        {
+            return y;
+        }
 	
 	//----------------------------------------------------------------------
 	/** Show an open file dialog box in order to get the directory of
@@ -881,69 +888,78 @@ public class ImageViewer extends JFrame
 	//----------------------------------------------------------------------
 	public static void main(String[] args) 
 	{
-		// When you start this application this function gets called by the
-		//  operating system.  Main just creates an ImageViewer object.
-		//  To follow the execution trail from here go to the ImageViewer
-		//  constructor.
-	 
-                try {
-                   // Set System L&F
-                    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-                } 
-                catch (UnsupportedLookAndFeelException e) {
-                   // handle exception
-                }
-                catch (ClassNotFoundException e) {
-                   // handle exception
-                }
-                catch (InstantiationException e) {
-                   // handle exception
-                }
-                catch (IllegalAccessException e) {
-                   // handle exception
-                }
-                             ImageViewer IV = new ImageViewer();
+            // When you start this application this function gets called by the
+            //  operating system.  Main just creates an ImageViewer object.
+            //  To follow the execution trail from here go to the ImageViewer
+            //  constructor.
+
+            try {
+               // Set System L&F
+                UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+            } 
+            catch (UnsupportedLookAndFeelException e) {
+               // handle exception
+            }
+            catch (ClassNotFoundException e) {
+               // handle exception
+            }
+            catch (InstantiationException e) {
+               // handle exception
+            }
+            catch (IllegalAccessException e) {
+               // handle exception
+            }
+                         //ImageViewer IV = new ImageViewer();
               
 	}
 
-       public static void pack(final Path folder, final Path zipFilePath) throws IOException {
-    try (
-            FileOutputStream fos = new FileOutputStream(zipFilePath.toFile());
-            ZipOutputStream zos = new ZipOutputStream(fos)
-    ) {
-        Files.walkFileTree(folder, new SimpleFileVisitor<Path>() {
-            public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
-                zos.putNextEntry(new ZipEntry(folder.relativize(file).toString()));
-                Files.copy(file, zos);
-                zos.closeEntry();
-                return FileVisitResult.CONTINUE;
-            }
+       public static void pack(final Path folder, final Path zipFilePath) throws IOException 
+       {
+            try(FileOutputStream fos = new FileOutputStream(zipFilePath.toFile());
+                ZipOutputStream zos = new ZipOutputStream(fos))
+            {
+                Files.walkFileTree(folder, new SimpleFileVisitor<Path>() 
+                {
+                    public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException 
+                    {
+                        zos.putNextEntry(new ZipEntry(folder.relativize(file).toString()));
+                        Files.copy(file, zos);
+                        zos.closeEntry();
+                        return FileVisitResult.CONTINUE;
+                    }
 
-            public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException {
-                zos.putNextEntry(new ZipEntry(folder.relativize(dir).toString() + "/"));
-                zos.closeEntry();
-                return FileVisitResult.CONTINUE;
-            }
+                    public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException 
+                    {
+                        zos.putNextEntry(new ZipEntry(folder.relativize(dir).toString() + "/"));
+                        zos.closeEntry();
+                        return FileVisitResult.CONTINUE;
+                    }
 
-        });
-    }
-}
+                });
+            }
+        }
        
-       public boolean deleteDirectory(File directory) {
-                if(directory.exists()){
-                    File[] files = directory.listFiles();
-                    if(null!=files){
-                        for(int i=0; i<files.length; i++) {
-                            if(files[i].isDirectory()) {
-                                deleteDirectory(files[i]);
-                            }
-                            else {
-                                files[i].delete();
-                            }
+       public boolean deleteDirectory(File directory) 
+       {
+            if(directory.exists())
+            {
+                File[] files = directory.listFiles();
+                if(null!=files)
+                {
+                    for(int i=0; i<files.length; i++) 
+                    {
+                        if(files[i].isDirectory()) 
+                        {
+                            deleteDirectory(files[i]);
+                        }
+                        else 
+                        {
+                            files[i].delete();
                         }
                     }
                 }
-                return(directory.delete());
             }
+            return(directory.delete());
+        }
    
 }

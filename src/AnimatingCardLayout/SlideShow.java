@@ -13,6 +13,7 @@ import java.io.*;
 import java.util.ArrayList;
 
 import javax.swing.*;
+import pkgImageViewer.SetTransitionOptionsDlg;
 
 
 public class SlideShow extends JFrame
@@ -20,6 +21,9 @@ public class SlideShow extends JFrame
    final static int ANIM_DUR = 2500;
    final static int DEFAULT_WINDOW_SIZE = 500;
    final static int TIMER_DELAY = 6000;
+   
+   public int theValue;
+   
 
    AnimatingCardLayout acl;
 
@@ -64,10 +68,14 @@ public class SlideShow extends JFrame
       picture = new JLabel ();
       picture.setHorizontalAlignment (JLabel.CENTER);
       pictures.add (picture, "pic2");
-
+      
+      pkgImageViewer.ImageViewer dlg1 = new pkgImageViewer.ImageViewer();
+      theValue = dlg1.getValue();
+      
       ActionListener al;
       al = new ActionListener ()
            {
+          
                public void actionPerformed (ActionEvent ae)
                {
                   if (index == images.size ())
@@ -85,8 +93,9 @@ public class SlideShow extends JFrame
                  // [3]- fade-to-white
                  // [4]- fade-from-black
                  // [5]- fade-from-white    
-                  
-                  acl.setAnimation (animations [2]);
+                 
+                               
+                  acl.setAnimation (animations [theValue]);
 
                   //random selection of transition
                   //acl.setAnimation (animations [(int) (Math.random ()*

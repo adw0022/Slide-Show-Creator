@@ -44,22 +44,22 @@ public class SetTransitionOptionsDlg extends JDialog
 	public static final Font SysSmallLabelFontB = new Font("SansSerif", Font.BOLD, 14);	
 	
 	/** Fade-in radio button */
-	private JRadioButton m_FadeInRB;
+	private JRadioButton m_SlideRB;
         
         /** Fade-out radio button */
-	private JRadioButton m_FadeOutRB;
+	private JRadioButton m_CrossFadeRB;
         
         /** Wipe-up radio button */
-	private JRadioButton m_WipeUpRB;
+	private JRadioButton m_FadetoBlackRB;
         
         /** Wipe-down radio button */
-	private JRadioButton m_WipeDownRB;
+	private JRadioButton m_FadetoWhiteRB;
         
         /** Wipe-left radio button */
-	private JRadioButton m_WipeLeftRB;
+	private JRadioButton m_FadefromBlackRB;
         
         /** Wipe-right radio button */
-	private JRadioButton m_WipeRightRB;
+	private JRadioButton m_FadefromWhiteRB;
 	
 	
 	//------------------------------------------------
@@ -87,52 +87,52 @@ public class SetTransitionOptionsDlg extends JDialog
 		this.add(lbl);
                 
                 // Fade-in radio button
-                m_FadeInRB = new JRadioButton("Fade-In");
-		m_FadeInRB.setSize(120, 20);
-		m_FadeInRB.setLocation(100, 25);
-		m_FadeInRB.setSelected(false);
-		m_FadeInRB.setBackground(Color.lightGray);
-		this.add(m_FadeInRB);
+                m_SlideRB = new JRadioButton("Slide");
+		m_SlideRB.setSize(120, 20);
+		m_SlideRB.setLocation(100, 25);
+		m_SlideRB.setSelected(false);
+		m_SlideRB.setBackground(Color.lightGray);
+		this.add(m_SlideRB);
                 
                 // Fade-out radio button
-                m_FadeOutRB = new JRadioButton("Fade-Out");
-		m_FadeOutRB.setSize(120, 20);
-		m_FadeOutRB.setLocation(100, 45);
-		m_FadeOutRB.setSelected(false);
-		m_FadeOutRB.setBackground(Color.lightGray);
-		this.add(m_FadeOutRB);
+                m_CrossFadeRB = new JRadioButton("Cross-Fade");
+		m_CrossFadeRB.setSize(120, 20);
+		m_CrossFadeRB.setLocation(100, 45);
+		m_CrossFadeRB.setSelected(false);
+		m_CrossFadeRB.setBackground(Color.lightGray);
+		this.add(m_CrossFadeRB);
 		
                 // Wipe-up radio button
-                m_WipeUpRB = new JRadioButton("Wipe-Up");
-		m_WipeUpRB.setSize(120, 20);
-		m_WipeUpRB.setLocation(100, 65);
-		m_WipeUpRB.setSelected(false);
-		m_WipeUpRB.setBackground(Color.lightGray);
-		this.add(m_WipeUpRB);
+                m_FadetoBlackRB = new JRadioButton("Fade-to-Black");
+		m_FadetoBlackRB.setSize(120, 20);
+		m_FadetoBlackRB.setLocation(100, 65);
+		m_FadetoBlackRB.setSelected(false);
+		m_FadetoBlackRB.setBackground(Color.lightGray);
+		this.add(m_FadetoBlackRB);
                 
                 // Wipe-down radio button
-                m_WipeDownRB = new JRadioButton("Wipe-Down");
-		m_WipeDownRB.setSize(120, 20);
-		m_WipeDownRB.setLocation(100, 85);
-		m_WipeDownRB.setSelected(false);
-		m_WipeDownRB.setBackground(Color.lightGray);
-		this.add(m_WipeDownRB);
+                m_FadetoWhiteRB = new JRadioButton("Fade-to-White");
+		m_FadetoWhiteRB.setSize(120, 20);
+		m_FadetoWhiteRB.setLocation(100, 85);
+		m_FadetoWhiteRB.setSelected(false);
+		m_FadetoWhiteRB.setBackground(Color.lightGray);
+		this.add(m_FadetoWhiteRB);
                 
                 // Wipe-left radio button
-                m_WipeLeftRB = new JRadioButton("Wipe-Left");
-		m_WipeLeftRB.setSize(120, 20);
-		m_WipeLeftRB.setLocation(100, 105);
-		m_WipeLeftRB.setSelected(false);
-		m_WipeLeftRB.setBackground(Color.lightGray);
-		this.add(m_WipeLeftRB);
+                m_FadefromBlackRB = new JRadioButton("Fade-from-Black");
+		m_FadefromBlackRB.setSize(120, 20);
+		m_FadefromBlackRB.setLocation(100, 105);
+		m_FadefromBlackRB.setSelected(false);
+		m_FadefromBlackRB.setBackground(Color.lightGray);
+		this.add(m_FadefromBlackRB);
                 
                 // Wipe-right radio button
-                m_WipeRightRB = new JRadioButton("Wipe-Right");
-		m_WipeRightRB.setSize(120, 20);
-		m_WipeRightRB.setLocation(100, 125);
-		m_WipeRightRB.setSelected(false);
-		m_WipeRightRB.setBackground(Color.lightGray);
-		this.add(m_WipeRightRB);	
+                m_FadefromWhiteRB = new JRadioButton("Fade-from-White");
+		m_FadefromWhiteRB.setSize(120, 20);
+		m_FadefromWhiteRB.setLocation(100, 125);
+		m_FadefromWhiteRB.setSelected(false);
+		m_FadefromWhiteRB.setBackground(Color.lightGray);
+		this.add(m_FadefromWhiteRB);	
 		
 		
 		
@@ -170,7 +170,8 @@ public class SetTransitionOptionsDlg extends JDialog
 				});
 		this.add(m_CancelBtn);	
 		
-	}
+	}    
+    
 	
 	//------------------------------------------------
 	/** Get the exit status */
@@ -188,13 +189,13 @@ public class SetTransitionOptionsDlg extends JDialog
 	public int getTransitionTypes()
 	{
 		// Return which radio button is selected
-		if(m_FadeInRB.isSelected()) return 1;
-		else if(m_FadeOutRB.isSelected()) return 2;
-                else if(m_WipeUpRB.isSelected()) return 3;
-                else if(m_WipeDownRB.isSelected()) return 4;
-                else if(m_WipeLeftRB.isSelected()) return 5;
-                else if(m_WipeRightRB.isSelected()) return 6;
-		else return 7;
+		if(m_SlideRB.isSelected()) return 0;
+		else if(m_CrossFadeRB.isSelected()) return 1;
+                else if(m_FadetoBlackRB.isSelected()) return 2;
+                else if(m_FadetoWhiteRB.isSelected()) return 3;
+                else if(m_FadefromBlackRB.isSelected()) return 4;
+                else if(m_FadefromWhiteRB.isSelected()) return 5;
+		else return 6;
 	}
 	
 	
