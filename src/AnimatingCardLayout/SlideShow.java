@@ -25,12 +25,13 @@ public class SlideShow extends JFrame
 
    Animation [] animations =
    {
-//      new CubeAnimation (),
-//      new DashboardAnimation (),
       new FadeAnimation (),
-//      new IrisAnimation (),
-//      new RadialAnimation (),
-      new SlideAnimation ()
+      new SlideAnimation (),
+      //++++++++++++++++++++++++++add specific Fade Animations
+      new FadeToBlackAnimation(),
+      new FadeToWhiteAnimation(),
+      new FadeFromBlackAnimation(),
+      new FadeFromWhiteAnimation()
    };
 
    static ArrayList<ImageIcon> images = new ArrayList<> ();
@@ -75,12 +76,21 @@ public class SlideShow extends JFrame
                       return;
                   }
                   
-                 // non-random selection of transition [0]-fade, [1]-slide               
-                 // acl.setAnimation (animations [1]);
+                 // +++++++++++++++++non-random selection of transition 
+                 // use one of the following codes:
+                 
+                 // [0]- slide      
+                 // [1]- cross-fade 
+                 // [2]- fade-to-black
+                 // [3]- fade-to-white
+                 // [4]- fade-from-black
+                 // [5]- fade-from-white    
+                  
+                  acl.setAnimation (animations [2]);
 
                   //random selection of transition
-                  acl.setAnimation (animations [(int) (Math.random ()*
-                                                animations.length)]);
+                  //acl.setAnimation (animations [(int) (Math.random ()*
+                  //                              animations.length)]);
 
                   if ((index & 1) == 0) // Even indexes
                   {
@@ -142,7 +152,7 @@ public class SlideShow extends JFrame
 //          return;
 //      }
   
-      final File imagePath = new File ("C:\\Users\\Aaron Phillips\\Documents\\GitHub\\Slide-Show-Creator\\src\\pkgImageViewer\\Images");
+      final File imagePath = new File ("C:\\Users\\Andrew\\Documents\\GitHub\\Slide-Show-Creator\\src\\pkgImageViewer\\Images");
        
       if (!imagePath.isDirectory ())
       {

@@ -1,5 +1,6 @@
 package pkgImageViewer;
 
+import AnimatingCardLayout.SlideShow;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -11,10 +12,7 @@ import java.io.File;
 import java.util.Vector;
 import java.util.Collections;
 import javax.swing.UIManager;
-//////////////////////////////
-import java.awt.KeyEventDispatcher;
-import java.awt.KeyboardFocusManager;
-import java.awt.event.KeyEvent;
+
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -59,11 +57,13 @@ import javax.xml.datatype.Duration;
  */
 //=============================================================================
 public class ImageViewer extends JFrame
-{
+{    
+    
+//     private static void addFolderToZip(String string, String srcFolder, ZipOutputStream zip) 
+//    {
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+//    }
 
-    private static void addFolderToZip(String string, String srcFolder, ZipOutputStream zip) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 	/** Programmer ID */
 	public String m_sID = "Dr. Rick Coleman";
 	
@@ -368,49 +368,12 @@ public class ImageViewer extends JFrame
 				new ActionListener()
 				{
 					public void actionPerformed(ActionEvent e)
-					{						
-						//insert code to play show
-                                            //Toolkit tk = Toolkit.getDefaultToolkit();
-                                            
-                                            // Create a javax.swing.timer
-               
-		m_SSTimer = new Timer(m_iTimeDelay * 1000,
-			new ActionListener()
-			{
-				public void actionPerformed(ActionEvent e)
-				{
-                                    if (x <= 8)
-                                    {
-                                        //m_TheImage = tk.getImage((String)(m_vImageNames.elementAt(idx)));                                            
-                                            String temp = (String) (m_vImageNames.elementAt(x));
-                                            try {
-                                                FullScreen Test = new FullScreen(temp);
-                                            } catch (IOException ex) {
-                                                Logger.getLogger(ImageViewer.class.getName()).log(Level.SEVERE, null, ex);
-                                            }
-                                            x++;
-                                    }
-                                    else
-                                    {
-                                            m_SSTimer.stop();
-                                    }
-				}
-			});
-		m_SSTimer.setRepeats(true); // Repeat till we kill it
-		m_SSTimer.start();  // Start the timer
-//                                            for(int idx = 0; idx<(m_vImageNames.size()); idx++)
-//                                            {
-//                                            //m_TheImage = tk.getImage((String)(m_vImageNames.elementAt(idx)));
-//                                            String temp = (String) (m_vImageNames.elementAt(idx));
-//                                            try {
-//                                                FullScreen Test = new FullScreen(temp);
-//                                            } catch (IOException ex) {
-//                                                Logger.getLogger(ImageViewer.class.getName()).log(Level.SEVERE, null, ex);
-//                                            }
-//                                            }
-					}
-                                        });
-                                     //}
+					{					
+					
+                                            String[] args = null;
+                                            AnimatingCardLayout.SlideShow.main(args);                                           
+                                        }
+                                });                                   
 				
 		m_ButtonPanel.add(m_PlayShow);
                 
@@ -433,12 +396,16 @@ public class ImageViewer extends JFrame
                                                 File settings = new File(s, "settings.txt");
                                                 new File(s).mkdir();
                                                 FileWriter fw = null;
-                                                    try {
+                                                    try 
+                                                    {
                                                         fw = new FileWriter(settings.getAbsoluteFile());
-                                                    } catch (IOException ex) {
+                                                    } 
+                                                    catch (IOException ex) 
+                                                    {
                                                         Logger.getLogger(ImageViewer.class.getName()).log(Level.SEVERE, null, ex);
                                                     }
                                                     BufferedWriter bw = new BufferedWriter(fw);
+                                                    
                                                 for(int i=0; i< m_vImageNames.size(); i++)
                                                 {
                                                     String place = "/image";
@@ -446,6 +413,7 @@ public class ImageViewer extends JFrame
                                                     String destemp = s;
                                                     String imgpath = (String) m_vImageNames.get(i);
                                                     File source = new File(imgpath);
+                                                    
                                                     if((imgpath.endsWith(".jpg")) || (imgpath.endsWith(".JPG")))  
                                                     {
                                                         place = place.concat(".jpg");
@@ -461,32 +429,49 @@ public class ImageViewer extends JFrame
                                                         place = place.concat(".gif");
                                                         destemp = destemp.concat(place);
                                                     }
+                                                    
                                                     File destination = new File(destemp);
-                                                    try {
+                                                    
+                                                    try 
+                                                    {
                                                         Files.copy(source.toPath(), destination.toPath(), REPLACE_EXISTING);
-                                                    } catch (IOException ex) {
+                                                    } 
+                                                    catch (IOException ex) 
+                                                    {
                                                         Logger.getLogger(ImageViewer.class.getName()).log(Level.SEVERE, null, ex);
                                                     }
                                                     
                                                     String tempbuffer = (String) m_vTransitionNumber.get(i);
-                                                    try {
+                                                    
+                                                    try 
+                                                    {
                                                         bw.write(tempbuffer);
                                                         bw.newLine();
-                                                    } catch (IOException ex) {
+                                                    } 
+                                                    catch (IOException ex) 
+                                                    {
                                                         Logger.getLogger(ImageViewer.class.getName()).log(Level.SEVERE, null, ex);
                                                     }
                                                 }
-                                                try {
+                                                
+                                                try 
+                                                {
                                                     bw.close();
-                                                } catch (IOException ex) {
+                                                } 
+                                                catch (IOException ex) 
+                                                {
                                                     Logger.getLogger(ImageViewer.class.getName()).log(Level.SEVERE, null, ex);
-                                                }
+                                                }                                                
                                                 String destzip = s.concat(".zip");
                                                 Path destin = Paths.get(destzip);
                                                 Path sourcefile = Paths.get(s);
-                                                try {
+                                                
+                                                try 
+                                                {
                                                     pack(sourcefile, destin);
-                                                } catch (IOException ex) {
+                                                } 
+                                                catch (IOException ex) 
+                                                {
                                                     Logger.getLogger(ImageViewer.class.getName()).log(Level.SEVERE, null, ex);
                                                 }
                                                 File savedir = new File(s);
@@ -497,7 +482,6 @@ public class ImageViewer extends JFrame
 		m_ButtonPanel.add(m_SaveShow);
 
 		// Create the exit button
-//		m_ExitBtn = new JButton(new ImageIcon("Images/Exit.jpg"));
 		m_ExitBtn = new JButton(new ImageIcon(getClass().getResource("Images/Exit.jpg")));
 		m_ExitBtn.setSize(20, 20);
 		m_ExitBtn.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
@@ -515,7 +499,8 @@ public class ImageViewer extends JFrame
 		
 		// Make the window visible
 		this.setVisible(true);
-	}       
+	}          
+       
          
 
 	//----------------------------------------------------------------------
