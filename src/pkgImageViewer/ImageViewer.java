@@ -909,7 +909,7 @@ public class ImageViewer extends JFrame
             catch (IllegalAccessException e) {
                // handle exception
             }
-                         //ImageViewer IV = new ImageViewer();
+                         ImageViewer IV = new ImageViewer();
               
 	}
 
