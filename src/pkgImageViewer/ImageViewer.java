@@ -474,17 +474,11 @@ public class ImageViewer extends JFrame
 		retVal = dlg1.getExitStatus();
 		if(retVal == 0) // If the user clicked OK get the values
 		{			
-			m_iTransitionTypes = dlg1.getTransitionTypes();
-                        			
+			m_iTransitionTypes = dlg1.getTransitionTypes();                    
 		}
 		dlg1.dispose(); // Destroy the dialog box   
-                y = m_iTransitionTypes;
 	}
         
-        public int getValue()
-        {
-            return y;
-        }
 	
 	//----------------------------------------------------------------------
 	/** Show an open file dialog box in order to get the directory of
@@ -844,7 +838,7 @@ public class ImageViewer extends JFrame
 
                 });
             }
-        }
+        }     
        
        public boolean deleteDirectory(File directory) 
        {

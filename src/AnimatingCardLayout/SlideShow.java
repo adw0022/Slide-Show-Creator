@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package AnimatingCardLayout;
 
 import java.awt.*;
@@ -31,8 +27,8 @@ public class SlideShow extends JFrame
 
    Animation [] animations =
    {
-      new FadeAnimation (),
-      new SlideAnimation (),
+      new SlideAnimation (), 
+      new FadeAnimation (),      
       //++++++++++++++++++++++++++add specific Fade Animations
       new FadeToBlackAnimation(),
       new FadeToWhiteAnimation(),
@@ -62,7 +58,7 @@ public class SlideShow extends JFrame
         /** Vector of transition identifier */
 	static Vector m_vTransitionNumber = null;
         
-        static int m_iTransitionTypes = 0;
+        static int m_iTransitionTypes;
         
         //------------------------------------------
         
@@ -87,10 +83,8 @@ public class SlideShow extends JFrame
 
       picture = new JLabel ();
       picture.setHorizontalAlignment (JLabel.CENTER);
-      pictures.add (picture, "pic2");
-      
-//      pkgImageViewer.ImageViewer dlg1 = new pkgImageViewer.ImageViewer();
-//      theValue = dlg1.getValue();
+      pictures.add (picture, "pic2");    
+
       
       ActionListener al;
       al = new ActionListener ()
@@ -112,14 +106,14 @@ public class SlideShow extends JFrame
                  // [2]- fade-to-black
                  // [3]- fade-to-white
                  // [4]- fade-from-black
-                 // [5]- fade-from-white    
+                 // [5]- fade-from-white                
                  
                                
                  acl.setAnimation (animations [m_iTransitionTypes]);
 
                   //random selection of transition
-                  //acl.setAnimation (animations [(int) (Math.random ()*
-                  //                              animations.length)]);
+//                  acl.setAnimation (animations [(int) (Math.random ()*
+//                                                animations.length)]);
 
                   if ((index & 1) == 0) // Even indexes
                   {

@@ -6,7 +6,7 @@
 <entry key="ShowTypes">3</entry>
 <entry key="ImageDir">C:\Users\Andrew\Documents\GitHub\Slide-Show-Creator\src\pkgImageViewer\Images</entry>
 <entry key="ScaleImages">true</entry>
-<entry key="TransitionTypes">4</entry>
+<entry key="TransitionTypes">0</entry>
 <entry key="ChangeManually">true</entry>
 <entry key="TransitionNames">0,0,0,0,0,0,0,0,0</entry>
 <entry key="TimeDelay">5</entry>
