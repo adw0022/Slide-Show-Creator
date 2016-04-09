@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<comment>slideShow settings</comment>
+<entry key="ImageNames">C:\Users\Andrew\Documents\GitHub\Slide-Show-Creator\src\pkgImageViewer\Images\BackArrow.jpg,C:\Users\Andrew\Documents\GitHub\Slide-Show-Creator\src\pkgImageViewer\Images\DisplayOptions.jpg,C:\Users\Andrew\Documents\GitHub\Slide-Show-Creator\src\pkgImageViewer\Images\Exit.jpg,C:\Users\Andrew\Documents\GitHub\Slide-Show-Creator\src\pkgImageViewer\Images\jpeg420exif.jpg,C:\Users\Andrew\Documents\GitHub\Slide-Show-Creator\src\pkgImageViewer\Images\NextArrow.jpg,C:\Users\Andrew\Documents\GitHub\Slide-Show-Creator\src\pkgImageViewer\Images\Open Slideshow.jpg,C:\Users\Andrew\Documents\GitHub\Slide-Show-Creator\src\pkgImageViewer\Images\OpenDirectory.jpg,C:\Users\Andrew\Documents\GitHub\Slide-Show-Creator\src\pkgImageViewer\Images\ShiftLeft.jpg,C:\Users\Andrew\Documents\GitHub\Slide-Show-Creator\src\pkgImageViewer\Images\ShiftRight.jpg</entry>
+<entry key="ShowTypes">3</entry>
+<entry key="ImageDir">C:\Users\Andrew\Documents\GitHub\Slide-Show-Creator\src\pkgImageViewer\Images</entry>
+<entry key="ScaleImages">true</entry>
+<entry key="TransitionTypes">4</entry>
+<entry key="ChangeManually">true</entry>
+<entry key="TransitionNames">0,0,0,0,0,0,0,0,0</entry>
+<entry key="TimeDelay">5</entry>
+</properties>

@@ -11,6 +11,8 @@ import java.awt.event.*;
 import java.io.*;
 
 import java.util.ArrayList;
+import java.util.Properties;
+import java.util.Vector;
 
 import javax.swing.*;
 import pkgImageViewer.SetTransitionOptionsDlg;
@@ -22,8 +24,8 @@ public class SlideShow extends JFrame
    final static int DEFAULT_WINDOW_SIZE = 500;
    final static int TIMER_DELAY = 6000;
    
-   public int theValue;
-   
+//  int theValue = (new pkgImageViewer.ImageViewer()).getValue();
+
 
    AnimatingCardLayout acl;
 
@@ -48,10 +50,28 @@ public class SlideShow extends JFrame
 
    Timer timer;
 
+        //------------------------------------------
+	// Miscellaneous variables
+	//------------------------------------------
+	/** Image directory to show */
+	static String m_sImageDir;
+	
+	/** Vector of image names */
+	Vector m_vImageNames = null;
+        
+        /** Vector of transition identifier */
+	static Vector m_vTransitionNumber = null;
+        
+        static int m_iTransitionTypes = 0;
+        
+        //------------------------------------------
+        
+        
+        
    public SlideShow ()
    {
       super ("Slide Show");
-      setDefaultCloseOperation (EXIT_ON_CLOSE);
+      //setDefaultCloseOperation (EXIT_ON_CLOSE);
 
       pictures = new JPanel ();
       pictures.setBackground (Color.black);
@@ -69,8 +89,8 @@ public class SlideShow extends JFrame
       picture.setHorizontalAlignment (JLabel.CENTER);
       pictures.add (picture, "pic2");
       
-      pkgImageViewer.ImageViewer dlg1 = new pkgImageViewer.ImageViewer();
-      theValue = dlg1.getValue();
+//      pkgImageViewer.ImageViewer dlg1 = new pkgImageViewer.ImageViewer();
+//      theValue = dlg1.getValue();
       
       ActionListener al;
       al = new ActionListener ()
@@ -95,7 +115,7 @@ public class SlideShow extends JFrame
                  // [5]- fade-from-white    
                  
                                
-                  acl.setAnimation (animations [theValue]);
+                 acl.setAnimation (animations [m_iTransitionTypes]);
 
                   //random selection of transition
                   //acl.setAnimation (animations [(int) (Math.random ()*
@@ -133,9 +153,13 @@ public class SlideShow extends JFrame
       setContentPane (pictures);
 
       timer = new Timer (TIMER_DELAY, al);
+      
+      //OpenSlideShow(); //better try to call from main
+      
       timer.start ();
 
       setSize (DEFAULT_WINDOW_SIZE, DEFAULT_WINDOW_SIZE);
+      setExtendedState(MAXIMIZED_BOTH);
       setVisible (true);
    }
 
@@ -151,6 +175,68 @@ public class SlideShow extends JFrame
       }
    }   
    
+    //----------------------------------------------------------------------
+    /** Load parameters of slide show from .xml file in project directory
+    *  using properties object                                           */
+    //----------
+    static void OpenSlideShow() {
+      
+        Properties props = new Properties(); //create properties object
+        String[] stringArray = null; //auxiliary array  
+        
+        //load properties from disk file to properties object
+         
+        try {
+            File configFile = new File("slideshow.xml");
+            InputStream inputStream = new FileInputStream(configFile);
+            props.loadFromXML(inputStream);
+
+            inputStream.close();
+        } catch (FileNotFoundException ex) {
+            // file does not exist
+        } catch (IOException ex) {
+            // I/O error
+        }
+        
+     //retrieve properties from the properties object
+    
+     //....................... retrieve m_sImageDir
+     m_sImageDir = props.getProperty( "ImageDir");
+     
+     
+    
+     //............................retrieve m_vTransitionNumber
+     m_vTransitionNumber = new Vector();
+     String stringOftransitionNames;   
+     stringOftransitionNames = props.getProperty("TransitionNames");
+     
+    //convert back from single string to stringArray using split      
+    stringArray = stringOftransitionNames.split(",");
+
+    //assign strings from stringArray as elements of vector m_vTransitionNumber 
+    
+    System.out.println("in OpenSlideShow: retrieving transition names and assigning to m_vTransitionNumber ");
+    
+    for(String s: stringArray) {
+        
+        m_vTransitionNumber.add(s); // Add this one to vector
+        System.out.println(s);  
+    }
+    stringArray = null;    //clear stringArray
+     
+
+    //............................. retrieve m_iTransitionTypes
+    m_iTransitionTypes = Integer.parseInt(props.getProperty( "TransitionTypes" ));
+
+       System.out.println("SlideShow: finished retrieving properties from properties object");
+     
+        System.out.print("integer:  m_iTransitionTypes:  ");
+        System.out.printf("%d\n",  m_iTransitionTypes);
+       
+        System.out.print("string:  m_sImageDir:  ");
+        System.out.printf("%s\n",  m_sImageDir);
+        
+    }//end OpenSlideShow()
 
    public static void main (String [] args)
    {
@@ -161,8 +247,9 @@ public class SlideShow extends JFrame
 //          return;
 //      }
   
-      final File imagePath = new File ("C:\\Users\\Andrew\\Documents\\GitHub\\Slide-Show-Creator\\src\\pkgImageViewer\\Images");
-       
+      OpenSlideShow();
+      
+      final File imagePath = new File (m_sImageDir); 
       if (!imagePath.isDirectory ())
       {
           System.err.println (args [0]+" is not a directory path");

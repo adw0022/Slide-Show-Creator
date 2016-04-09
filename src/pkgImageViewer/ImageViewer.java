@@ -28,9 +28,13 @@ import java.awt.image.BufferedImage;
 import java.lang.String;
 import java.awt.GridLayout;
 import java.io.BufferedWriter;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -38,6 +42,8 @@ import java.nio.file.Paths;
 import java.nio.file.SimpleFileVisitor;
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import java.nio.file.attribute.BasicFileAttributes;
+import java.util.Arrays;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.zip.ZipEntry;
@@ -82,6 +88,9 @@ public class ImageViewer extends JFrame
         /** Panel holding the thumbnail */
 	private JPanel m_ThumbPanel;
 	
+        /** Open Slide Show button */
+	private JButton OpenSlideShowBtn;
+                
 	/** Display Options button */
 	private JButton m_DisplayOptionsBtn;
         
@@ -217,6 +226,24 @@ public class ImageViewer extends JFrame
 		// Use the default Flow Layout manager
 		this.getContentPane().add(m_ButtonPanel);
 		
+                // Create the OpenSlideShowBtn button
+//		OpenSlideShowBtn = new JButton(new ImageIcon("Images/Open Slideshow.jpg"));
+		OpenSlideShowBtn = new JButton(new ImageIcon(getClass().getResource("Images/Open Slideshow.jpg")));
+
+		OpenSlideShowBtn.setSize(20, 20);
+		OpenSlideShowBtn.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
+		OpenSlideShowBtn.setToolTipText("Click to open slideshow from saved settings.");
+		OpenSlideShowBtn.addActionListener(
+				new ActionListener()
+				{
+					public void actionPerformed(ActionEvent e)
+					{
+						//	Handle setting the display options
+						OpenSlideShow();
+					}
+				});
+		m_ButtonPanel.add(OpenSlideShowBtn);	
+                
 		// Create the Display Options button
 //		m_DisplayOptionsBtn = new JButton(new ImageIcon("Images/DisplayOptions.jpg"));
 		m_DisplayOptionsBtn = new JButton(new ImageIcon(getClass().getResource("Images/DisplayOptions.jpg")));
@@ -369,10 +396,9 @@ public class ImageViewer extends JFrame
 				new ActionListener()
 				{
 					public void actionPerformed(ActionEvent e)
-					{					
-					
+					{
                                             String[] args = null;
-                                            AnimatingCardLayout.SlideShow.main(args);                                           
+                                            AnimatingCardLayout.SlideShow.main(args);                                            
                                         }
                                 });                                   
 				
@@ -389,95 +415,8 @@ public class ImageViewer extends JFrame
 				{
 					public void actionPerformed(ActionEvent e)
 					{
-                                            if(m_vImageNames != null)
-                                            {
-                                                Path currentRelativePath = Paths.get("");
-                                                String s = currentRelativePath.toAbsolutePath().toString();
-                                                s = s.concat("/savefile");
-                                                File settings = new File(s, "settings.txt");
-                                                new File(s).mkdir();
-                                                FileWriter fw = null;
-                                                    try 
-                                                    {
-                                                        fw = new FileWriter(settings.getAbsoluteFile());
-                                                    } 
-                                                    catch (IOException ex) 
-                                                    {
-                                                        Logger.getLogger(ImageViewer.class.getName()).log(Level.SEVERE, null, ex);
-                                                    }
-                                                    BufferedWriter bw = new BufferedWriter(fw);
-                                                    
-                                                for(int i=0; i< m_vImageNames.size(); i++)
-                                                {
-                                                    String place = "/image";
-                                                    place = place.concat(String.valueOf(i));
-                                                    String destemp = s;
-                                                    String imgpath = (String) m_vImageNames.get(i);
-                                                    File source = new File(imgpath);
-                                                    
-                                                    if((imgpath.endsWith(".jpg")) || (imgpath.endsWith(".JPG")))  
-                                                    {
-                                                        place = place.concat(".jpg");
-                                                        destemp = destemp.concat(place);
-                                                    }
-                                                    else if((imgpath.endsWith(".jpeg")) || (imgpath.endsWith(".JPEG")))  
-                                                    {
-                                                        place = place.concat(".jpeg");
-                                                        destemp = destemp.concat(place);
-                                                    }    
-                                                    else if((imgpath.endsWith(".gif")) || (imgpath.endsWith(".GIF")))
-                                                    {
-                                                        place = place.concat(".gif");
-                                                        destemp = destemp.concat(place);
-                                                    }
-                                                    
-                                                    File destination = new File(destemp);
-                                                    
-                                                    try 
-                                                    {
-                                                        Files.copy(source.toPath(), destination.toPath(), REPLACE_EXISTING);
-                                                    } 
-                                                    catch (IOException ex) 
-                                                    {
-                                                        Logger.getLogger(ImageViewer.class.getName()).log(Level.SEVERE, null, ex);
-                                                    }
-                                                    
-                                                    String tempbuffer = (String) m_vTransitionNumber.get(i);
-                                                    
-                                                    try 
-                                                    {
-                                                        bw.write(tempbuffer);
-                                                        bw.newLine();
-                                                    } 
-                                                    catch (IOException ex) 
-                                                    {
-                                                        Logger.getLogger(ImageViewer.class.getName()).log(Level.SEVERE, null, ex);
-                                                    }
-                                                }
-                                                
-                                                try 
-                                                {
-                                                    bw.close();
-                                                } 
-                                                catch (IOException ex) 
-                                                {
-                                                    Logger.getLogger(ImageViewer.class.getName()).log(Level.SEVERE, null, ex);
-                                                }                                                
-                                                String destzip = s.concat(".zip");
-                                                Path destin = Paths.get(destzip);
-                                                Path sourcefile = Paths.get(s);
-                                                
-                                                try 
-                                                {
-                                                    pack(sourcefile, destin);
-                                                } 
-                                                catch (IOException ex) 
-                                                {
-                                                    Logger.getLogger(ImageViewer.class.getName()).log(Level.SEVERE, null, ex);
-                                                }
-                                                File savedir = new File(s);
-                                                deleteDirectory(savedir);
-                                            }
+                                            SaveSlideShow();    //save settings
+                                            saveImagesZip();    //save images
 					}
 				});
 		m_ButtonPanel.add(m_SaveShow);
@@ -878,41 +817,9 @@ public class ImageViewer extends JFrame
 			});
 		m_SSTimer.setRepeats(true); // Repeat till we kill it
 		m_SSTimer.start();  // Start the timer
-	}       
+	}     
         
-	
-	//----------------------------------------------------------------------
-	/** Main function for this demonstration
-	 * @param args - Array of strings from the command line
-	 */
-	//----------------------------------------------------------------------
-	public static void main(String[] args) 
-	{
-            // When you start this application this function gets called by the
-            //  operating system.  Main just creates an ImageViewer object.
-            //  To follow the execution trail from here go to the ImageViewer
-            //  constructor.
-
-            try {
-               // Set System L&F
-                UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-            } 
-            catch (UnsupportedLookAndFeelException e) {
-               // handle exception
-            }
-            catch (ClassNotFoundException e) {
-               // handle exception
-            }
-            catch (InstantiationException e) {
-               // handle exception
-            }
-            catch (IllegalAccessException e) {
-               // handle exception
-            }
-                         ImageViewer IV = new ImageViewer();
-              
-	}
-
+        
        public static void pack(final Path folder, final Path zipFilePath) throws IOException 
        {
             try(FileOutputStream fos = new FileOutputStream(zipFilePath.toFile());
@@ -962,4 +869,356 @@ public class ImageViewer extends JFrame
             return(directory.delete());
         }
    
+        //----------------------------------------------------------------------
+	/** Save images in .zip file */
+	//----------------------------------------------------------------------
+	private void saveImagesZip()
+	{
+        if(m_vImageNames != null)
+        {
+            Path currentRelativePath = Paths.get("");
+            String s = currentRelativePath.toAbsolutePath().toString();
+            s = s.concat("/savefile");
+            File settings = new File(s, "settings.txt");
+            new File(s).mkdir();
+            FileWriter fw = null;
+                try 
+                {
+                    fw = new FileWriter(settings.getAbsoluteFile());
+                } 
+                catch (IOException ex) 
+                {
+                    Logger.getLogger(ImageViewer.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                BufferedWriter bw = new BufferedWriter(fw);
+
+            for(int i=0; i< m_vImageNames.size(); i++)
+            {
+                String place = "/image";
+                place = place.concat(String.valueOf(i));
+                String destemp = s;
+                String imgpath = (String) m_vImageNames.get(i);
+                File source = new File(imgpath);
+
+                if((imgpath.endsWith(".jpg")) || (imgpath.endsWith(".JPG")))  
+                {
+                    place = place.concat(".jpg");
+                    destemp = destemp.concat(place);
+                }
+                else if((imgpath.endsWith(".jpeg")) || (imgpath.endsWith(".JPEG")))  
+                {
+                    place = place.concat(".jpeg");
+                    destemp = destemp.concat(place);
+                }    
+                else if((imgpath.endsWith(".gif")) || (imgpath.endsWith(".GIF")))
+                {
+                    place = place.concat(".gif");
+                    destemp = destemp.concat(place);
+                }
+
+                File destination = new File(destemp);
+
+                try 
+                {
+                    Files.copy(source.toPath(), destination.toPath(), REPLACE_EXISTING);
+                } 
+                catch (IOException ex) 
+                {
+                    Logger.getLogger(ImageViewer.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+                String tempbuffer = (String) m_vTransitionNumber.get(i);
+
+                try 
+                {
+                    bw.write(tempbuffer);
+                    bw.newLine();
+                } 
+                catch (IOException ex) 
+                {
+                    Logger.getLogger(ImageViewer.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+
+            try 
+            {
+                bw.close();
+            } 
+            catch (IOException ex) 
+            {
+                Logger.getLogger(ImageViewer.class.getName()).log(Level.SEVERE, null, ex);
+            }                                                
+            String destzip = s.concat(".zip");
+            Path destin = Paths.get(destzip);
+            Path sourcefile = Paths.get(s);
+
+            try 
+            {
+                pack(sourcefile, destin);
+            } 
+            catch (IOException ex) 
+            {
+                Logger.getLogger(ImageViewer.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            File savedir = new File(s);
+            deleteDirectory(savedir);
+        }
+    }//end saveImagesZip   
+        
+    //----------------------------------------------------------------------
+    /** Save parameters of slide show to .xml file in project directory
+    *  using properties object                                           */
+    //----------
+    public void SaveSlideShow() {
+        
+        Properties props = new Properties(); //create properties object
+        String[] stringArray = null; //auxiliary array  
+        
+        //....................... save m_sImageDir
+        props.setProperty( "ImageDir", m_sImageDir );
+         
+        
+        //............................save m_vImageNames
+        String stringOfImageNames;
+        stringArray = new String[m_vImageNames.size()];//auxiliary array  
+        
+        //convert vector m_vImageNames to array stringArray of image names         
+        for (int i=0; i < m_vImageNames.size(); i++ ) {
+            
+            stringArray[i] = m_vImageNames.elementAt(i).toString();   
+        }
+         
+        //convert string array to stringOfImageNames using join() function
+        stringOfImageNames = join(",", stringArray);
+         
+        //set property on property object
+        props.setProperty("ImageNames", stringOfImageNames);
+         
+        stringArray = null;    //clear stringArray
+        
+        
+         //............................save m_vTransitionNumber
+        String stringOftransitionNames;
+        stringArray = new String[m_vTransitionNumber.size()];   
+        //convert vector m_vTransitionNumber to stringArray  
+        
+        for (int i=0; i < m_vTransitionNumber.size(); i++ ) {
+            
+            stringArray[i] = m_vTransitionNumber.elementAt(i).toString();   
+        }
+         
+        //convert string array to stringOftransitionNames using join() function
+        stringOftransitionNames = join(",", stringArray);
+         
+        //set property on property object
+        props.setProperty("TransitionNames", stringOftransitionNames);
+         
+        stringArray = null;    //clear stringArray
+        
+        
+         //......................... save m_bScaleImages
+         props.setProperty("ScaleImages", m_bScaleImages ? "true" : "false");
+         
+         //.......................... save m_iShowTypes
+         props.setProperty( "ShowTypes", String.valueOf(m_iShowTypes) );
+         
+          //........................... save m_bChangeManually
+         props.setProperty("ChangeManually", m_bChangeManually ? "true" : "false");
+         
+         //............................. save m_iTimeDelay
+         props.setProperty( "TimeDelay", String.valueOf(m_iTimeDelay) );
+         
+         //............................. save m_iTransitionTypes
+         props.setProperty( "TransitionTypes", String.valueOf(m_iTransitionTypes) );
+         
+        //------------------------------------
+        //write properties to .xml file in default project directory
+        try {
+            //hard code file name to be "slideshow.xml"
+            File configFile = new File("slideshow.xml");
+            OutputStream outputStream = new FileOutputStream(configFile);
+            props.storeToXML(outputStream, "slideShow settings");
+            outputStream.close();
+        } catch (FileNotFoundException ex) {
+            // file does not exist
+        } catch (IOException ex) {
+            //I/O error
+        }        
+        
+        //------------------------------------
+        //additionally, write properties to .xml file in directory of images
+        try {
+            //hard code file name to be "slideshow.xml"
+            File configFile = new File(m_sImageDir + "\\slideshow.xml");
+            OutputStream outputStream = new FileOutputStream(configFile);
+            props.storeToXML(outputStream, "slideShow settings");
+            outputStream.close();
+        } catch (FileNotFoundException ex) {
+            // file does not exist
+        } catch (IOException ex) {
+            //I/O error
+        }      
+        
+    }//end SaveSlideShow()
+     
+    
+    //----------------------------------------------------------------------
+     /**
+     * utility function used by SaveSlideShow()
+     * join() creates a single String from String array 
+     * using delimiter provided in the first argument
+     * @param delimiter
+     * @param s     String array to be joined
+     * @return      single String representing contents of s */
+    //----------
+    private String join(String delimiter, String[] s) {
+        int ls = s.length;
+        switch (ls)
+        {
+            case 0: return "";
+            case 1: return s[0];
+            case 2: return s[0].concat(delimiter).concat(s[1]);
+            default:
+                int l1 = ls / 2;
+                String[] s1 = Arrays.copyOfRange(s, 0, l1); 
+                String[] s2 = Arrays.copyOfRange(s, l1, ls); 
+                return join(delimiter, s1).concat(delimiter).
+                                           concat(join(delimiter, s2));
+        }
+    }//end join
+      
+    
+    //----------------------------------------------------------------------
+    /** Load parameters of slide show from .xml file in project directory
+    *  using properties object                                           */
+    //----------
+    public void OpenSlideShow() {
+      
+        Properties props = new Properties(); //create properties object
+        String[] stringArray = null; //auxiliary array  
+        
+        //load properties from disk file to properties object
+         
+        try {
+            File configFile = new File("slideshow.xml");
+            InputStream inputStream = new FileInputStream(configFile);
+            props.loadFromXML(inputStream);
+
+            inputStream.close();
+        } catch (FileNotFoundException ex) {
+            // file does not exist
+        } catch (IOException ex) {
+            // I/O error
+        }
+        
+     //retrieve properties from the properties object
+    
+     //....................... retrieve m_sImageDir
+     m_sImageDir = props.getProperty( "ImageDir");
+     
+     //............................retrieve m_vImageNames
+     m_vImageNames = new Vector();
+     String stringOfImageNames;   
+     stringOfImageNames = props.getProperty("ImageNames");
+     
+    //convert back from single string to stringArray using split      
+    stringArray = stringOfImageNames.split(",");
+
+    //assign strings from stringArray as elements of vector m_vImageNames 
+    
+    System.out.println("in OpenSlideShow: retrieving image names and assigning to m_vImageNames ");
+    
+    for(String s: stringArray) {
+        
+        m_vImageNames.add(s); // Add this one to vector
+        System.out.println(s);  
+    }
+    stringArray = null;    //clear stringArray
+    
+    showImage(m_iCurImageIdx); // Show first image 
+    
+     //............................retrieve m_vTransitionNumber
+     m_vTransitionNumber = new Vector();
+     String stringOftransitionNames;   
+     stringOftransitionNames = props.getProperty("TransitionNames");
+     
+    //convert back from single string to stringArray using split      
+    stringArray = stringOftransitionNames.split(",");
+
+    //assign strings from stringArray as elements of vector m_vTransitionNumber 
+    
+    System.out.println("in OpenSlideShow: retrieving transition names and assigning to m_vTransitionNumber ");
+    
+    for(String s: stringArray) {
+        
+        m_vTransitionNumber.add(s); // Add this one to vector
+        System.out.println(s);  
+    }
+    stringArray = null;    //clear stringArray
+     
+        
+     //......................... retrieve m_bScaleImages 
+     m_bScaleImages = (props.getProperty("ScaleImages")).equals("true");
+     
+     //.......................... retrieve m_iShowTypes
+     m_iShowTypes = Integer.parseInt(props.getProperty( "ShowTypes" ));
+
+     //........................... retrieve m_bChangeManually
+     m_bChangeManually = (props.getProperty("ChangeManually")).equals("true");
+
+     //............................. retrieve m_iTimeDelay
+     m_iTimeDelay = Integer.parseInt(props.getProperty( "TimeDelay"));
+
+    //............................. retrieve m_iTransitionTypes
+    m_iTransitionTypes = Integer.parseInt(props.getProperty( "TransitionTypes" ));
+
+       System.out.println("finished retrieving properties from properties object");
+    
+        System.out.print("boolean:  scaleimage:  ");
+        System.out.println(m_bScaleImages);
+        System.out.print("boolean:  changemanul");
+        System.out.println(m_bChangeManually);
+        System.out.print("integer:  m_iShowTypes:  ");
+        System.out.printf("%d\n",  m_iShowTypes);
+        System.out.print("integer:  m_iTransitionTypes:  ");
+        System.out.printf("%d\n",  m_iTransitionTypes);
+        System.out.print("integer:  m_iTimeDelay:  ");
+        System.out.printf("%d\n",  m_iTimeDelay);
+        System.out.print("string:  m_sImageDir:  ");
+        System.out.printf("%s\n",  m_sImageDir);
+        
+    }//end OpenSlideShow()
+
+
+        //----------------------------------------------------------------------
+	/** Main function for this demonstration
+	 * @param args - Array of strings from the command line
+	 */
+	//----------------------------------------------------------------------
+	public static void main(String[] args) 
+	{
+            // When you start this application this function gets called by the
+            //  operating system.  Main just creates an ImageViewer object.
+            //  To follow the execution trail from here go to the ImageViewer
+            //  constructor.
+
+            try {
+               // Set System L&F
+                UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+            } 
+            catch (UnsupportedLookAndFeelException e) {
+               // handle exception
+            }
+            catch (ClassNotFoundException e) {
+               // handle exception
+            }
+            catch (InstantiationException e) {
+               // handle exception
+            }
+            catch (IllegalAccessException e) {
+               // handle exception
+            }
+                         new ImageViewer();
+              
+	}
 }
