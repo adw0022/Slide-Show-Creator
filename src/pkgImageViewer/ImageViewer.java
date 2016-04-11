@@ -403,21 +403,8 @@ public class ImageViewer extends JFrame
 					{
                                             String[] args = null;
                                             
-                                            //call player of slides with transitions
-                                            AnimatingCardLayout.SlideShow.main(args); 
-                                            
-                                            //call player of soundtrack
-                                            try{
-                                                
-                                                SoundPlayer.SoundPlayer.main(args); 
-                                                
-                                            }catch(IOException | UnsupportedAudioFileException |
-                                                   LineUnavailableException | MidiUnavailableException |
-                                                   InvalidMidiDataException ee){
-                                                ee.printStackTrace();
-                                            }
-                                           
-                                            
+                                            //call player of slides with transitions and soundtrack
+                                            AnimatingCardLayout.SlideShow.main(args);                                                
                                         }
                                 });                                   
 				
