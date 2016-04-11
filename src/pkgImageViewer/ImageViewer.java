@@ -48,6 +48,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
+import javax.sound.midi.InvalidMidiDataException;
+import javax.sound.midi.MidiUnavailableException;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.xml.datatype.Duration;
 
 
@@ -398,7 +402,22 @@ public class ImageViewer extends JFrame
 					public void actionPerformed(ActionEvent e)
 					{
                                             String[] args = null;
-                                            AnimatingCardLayout.SlideShow.main(args);                                            
+                                            
+                                            //call player of slides with transitions
+                                            AnimatingCardLayout.SlideShow.main(args); 
+                                            
+                                            //call player of soundtrack
+                                            try{
+                                                
+                                                SoundPlayer.SoundPlayer.main(args); 
+                                                
+                                            }catch(IOException | UnsupportedAudioFileException |
+                                                   LineUnavailableException | MidiUnavailableException |
+                                                   InvalidMidiDataException ee){
+                                                ee.printStackTrace();
+                                            }
+                                           
+                                            
                                         }
                                 });                                   
 				
