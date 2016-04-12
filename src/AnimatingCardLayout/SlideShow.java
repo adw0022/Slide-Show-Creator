@@ -39,8 +39,8 @@ public class SlideShow extends JFrame
    final static int DEFAULT_WINDOW_SIZE = 500;
    
    //default size of sound player control
-   final static int SOUNDPlAYER_DEFAULT_WINDOW_X_SIZE = 1860;
-   final static int SOUNDPlAYER_DEFAULT_WINDOW_Y_SIZE = 70;
+   final static int SOUNDPlAYER_DEFAULT_WINDOW_X_SIZE = 1858;
+   final static int SOUNDPlAYER_DEFAULT_WINDOW_Y_SIZE = 30;
    
 //  int theValue = (new pkgImageViewer.ImageViewer()).getValue();
 
@@ -442,10 +442,12 @@ public class SlideShow extends JFrame
         // Put it in a window and dislay it
         
         JFrame f = new JFrame("Player");
-        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+       // f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         f.getContentPane().add(player, "Center");    
        
         f.setSize (SOUNDPlAYER_DEFAULT_WINDOW_X_SIZE, SOUNDPlAYER_DEFAULT_WINDOW_Y_SIZE);
+        f.setLocation(0, 1050);
+        f.setUndecorated(true);
     //  f.pack();
         f.setVisible(true);
 
@@ -461,7 +463,7 @@ public class SlideShow extends JFrame
       //setDefaultCloseOperation (EXIT_ON_CLOSE);
 
       pictures = new JPanel ();
-      pictures.setBackground (Color.black);
+      pictures.setBackground (Color.GRAY);
 
       acl = new AnimatingCardLayout ();
       acl.setAnimationDuration (ANIM_DUR);
@@ -545,6 +547,7 @@ public class SlideShow extends JFrame
 
       setSize (DEFAULT_WINDOW_SIZE, DEFAULT_WINDOW_SIZE);
       setExtendedState(MAXIMIZED_BOTH);
+      setDefaultCloseOperation(EXIT_ON_CLOSE);
       setVisible (true);
       
      

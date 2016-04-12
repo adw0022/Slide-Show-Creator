@@ -2,12 +2,12 @@
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
 <comment>slideShow settings</comment>
-<entry key="ImageNames">C:\Users\Andrew\Documents\GitHub\Slide-Show-Creator\src\Thumbnails\download.thumb.jpg,C:\Users\Andrew\Documents\GitHub\Slide-Show-Creator\src\Thumbnails\download2.thumb.jpg,C:\Users\Andrew\Documents\GitHub\Slide-Show-Creator\src\Thumbnails\download3.thumb.jpg</entry>
+<entry key="ImageNames">C:\Users\Andrew\Documents\GitHub\Slide-Show-Creator\src\Pictures\Image01.jpeg,C:\Users\Andrew\Documents\GitHub\Slide-Show-Creator\src\Pictures\Image02.jpg,C:\Users\Andrew\Documents\GitHub\Slide-Show-Creator\src\Pictures\Image03.jpg,C:\Users\Andrew\Documents\GitHub\Slide-Show-Creator\src\Pictures\Image04.jpg,C:\Users\Andrew\Documents\GitHub\Slide-Show-Creator\src\Pictures\Image05.jpeg</entry>
 <entry key="ShowTypes">3</entry>
-<entry key="ImageDir">C:\Users\Andrew\Documents\GitHub\Slide-Show-Creator\src\Thumbnails</entry>
+<entry key="ImageDir">C:\Users\Andrew\Documents\GitHub\Slide-Show-Creator\src\Pictures</entry>
 <entry key="ScaleImages">true</entry>
 <entry key="TransitionTypes">0</entry>
 <entry key="ChangeManually">true</entry>
-<entry key="TransitionNames">0,0,0</entry>
+<entry key="TransitionNames">0,0,0,0,0</entry>
 <entry key="TimeDelay">5</entry>
 </properties>
