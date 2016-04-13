@@ -89,10 +89,8 @@ public class ImageViewer extends JFrame
         public BufferedImage m_theImage;
                 
 	/** Panel holding the buttons */
-	private JPanel m_ButtonPanel;
+	private JPanel m_ButtonPanel; 
         
-        /** Panel holding the thumbnail */
-	private JPanel m_ThumbPanel;
 	
         /** Open Slide Show button */
 	private JButton OpenSlideShowBtn;
@@ -153,6 +151,9 @@ public class ImageViewer extends JFrame
 	//------------------------------------------
 	/** Image directory to show */
 	private String m_sImageDir;
+        
+        /** Sound directory to show */
+	public String m_sSoundFile;
 	
 	/** Vector of image names */
 	private Vector m_vImageNames = null;
@@ -260,13 +261,14 @@ public class ImageViewer extends JFrame
 
 		m_SoundSettings.setSize(20, 20);
 		m_SoundSettings.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
-		m_SoundSettings.setToolTipText("Click to open sound settings.");
+		m_SoundSettings.setToolTipText("Click to select directory of sound files.");
 		m_SoundSettings.addActionListener(
 				new ActionListener()
 				{
 					public void actionPerformed(ActionEvent e)
 					{
-                                                //Handle setting the sound options						
+                                            //Handle setting the sound options
+                                            getSoundFile();                                            
 					}
 				});
 		m_ButtonPanel.add(m_SoundSettings);
@@ -481,8 +483,26 @@ public class ImageViewer extends JFrame
 	     }
 //		System.out.println("Dir: " + m_sImageDir);
 	}
+        
+        private void getSoundFile()
+	{
+		int retValue;	// Return value from the JFileChooser
+		
+	     JFileChooser chooser = new JFileChooser();	// Create the file chooser dialog box
+	     chooser.setDialogTitle("Select Sound File"); // Set dialog title
+	     chooser.setFileSelectionMode(JFileChooser.FILES_ONLY); // Only select files
+	     chooser.setApproveButtonText("Select");
+	     retValue = chooser.showOpenDialog(this); // Show the dialog box
+	     if(retValue == JFileChooser.APPROVE_OPTION) // User selected a file
+	     {
+	    	 // Got a file so get it's full path
+	    	 m_sSoundFile = chooser.getSelectedFile().getAbsolutePath();
+	     }
+//		System.out.println("Dir: " + m_sImageDir);
+	}
 	
-	//----------------------------------------------------------------------
+	   
+         //----------------------------------------------------------------------
 	/** Build the list of images to show */
 	//----------------------------------------------------------------------
 	private void buildImageList()
@@ -540,8 +560,10 @@ public class ImageViewer extends JFrame
             for(int i=0; i<temp; i++){
                 m_vTransitionNumber.add("0");
             }
-      	}   
-         
+      	}    
+        
+       
+        
         //----------------------------------------------------------------------
 	/** Show table icons. */
 	//----------------------------------------------------------------------
@@ -880,6 +902,9 @@ public class ImageViewer extends JFrame
         
         //....................... save m_sImageDir
         props.setProperty( "ImageDir", m_sImageDir );
+        
+         //....................... save m_sSoundFile
+        props.setProperty( "SoundFile", m_sSoundFile );
          
         
         //............................save m_vImageNames
@@ -1018,7 +1043,10 @@ public class ImageViewer extends JFrame
      //retrieve properties from the properties object
     
      //....................... retrieve m_sImageDir
-     m_sImageDir = props.getProperty( "ImageDir");
+     m_sImageDir = props.getProperty("ImageDir");
+     
+      //....................... retrieve m_SoundFile
+     m_sSoundFile = props.getProperty("SoundFile");
      
      //............................retrieve m_vImageNames
      m_vImageNames = new Vector();
@@ -1090,6 +1118,8 @@ public class ImageViewer extends JFrame
         System.out.printf("%d\n",  m_iTimeDelay);
         System.out.print("string:  m_sImageDir:  ");
         System.out.printf("%s\n",  m_sImageDir);
+        System.out.print("string:  m_sSoundFile:  ");
+        System.out.printf("%s\n",  m_sSoundFile);
         
     }//end OpenSlideShow()
 

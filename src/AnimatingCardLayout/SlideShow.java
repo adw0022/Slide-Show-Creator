@@ -74,6 +74,9 @@ public class SlideShow extends JFrame
 	//------------------------------------------
 	/** Image directory to show */
 	static String m_sImageDir;
+        
+        /** Sound directory to show */
+	static String m_sSoundFile;
 	
 	/** Vector of image names */
 	static Vector m_vImageNames = null;
@@ -419,8 +422,8 @@ public class SlideShow extends JFrame
         // does not work for .au  .rmf
 
 
-        File file = new File(// This is the hard-coded file we'll be playing:
-         "C:\\Users\\Andrew\\Documents\\GitHub\\Slide-Show-Creator\\src\\SoundFiles\\GameofThrones.mid");   
+        File file = new File(m_sSoundFile); //User selected sound file that will be played
+           
 
 
         // Determine whether it is midi or sampled audio
@@ -608,6 +611,8 @@ public class SlideShow extends JFrame
      //....................... retrieve m_sImageDir
      m_sImageDir = props.getProperty( "ImageDir");
      
+     //....................... retrieve m_sImageDir
+     m_sSoundFile = props.getProperty( "SoundFile");
      
     
      //............................retrieve m_vTransitionNumber
@@ -641,6 +646,10 @@ public class SlideShow extends JFrame
        
         System.out.print("string:  m_sImageDir:  ");
         System.out.printf("%s\n",  m_sImageDir);
+        
+        System.out.print("string:  m_sImageDir:  ");
+        System.out.printf("%s\n",  m_sSoundFile);
+        
         
     }//end OpenSlideShow()
 
