@@ -42,17 +42,18 @@ import java.nio.file.Paths;
 import java.nio.file.SimpleFileVisitor;
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import java.nio.file.attribute.BasicFileAttributes;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
-import javax.sound.midi.InvalidMidiDataException;
-import javax.sound.midi.MidiUnavailableException;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
-import javax.xml.datatype.Duration;
+import javax.imageio.ImageIO;
+import javax.swing.JLabel;
+import javax.swing.JScrollPane;
+
 
 
 //=============================================================================
@@ -80,8 +81,9 @@ public class ImageViewer extends JFrame
 	/** Panel displaying the images */
 	public ImagePanel m_ImagePanel;
         
-        /* Panel displaying series of thumbnails */
-        public ImageThumbnail m_iThumb; 
+        public TableIcon m_icon;
+        private JPanel m_iconPanel;
+        private JLabel m_label; 
         
         /** Image used for displaying thumbnail**/
         public BufferedImage m_theImage;
@@ -185,7 +187,7 @@ public class ImageViewer extends JFrame
             	//------------------------------------------
 		// Set all parameters for this JFrame object
 		//------------------------------------------
-		this.setSize(740, 600); // Make the window smaller than the screen
+		this.setSize(1280, 600); // Make the window smaller than the screen
 		this.setLocation(50, 50); // Set window location on screen
 		this.setTitle("ImageViewer");
 		this.getContentPane().setLayout(null); // We'll do our own layouts, thank you.
@@ -195,8 +197,9 @@ public class ImageViewer extends JFrame
 		m_ImagePanel = new ImagePanel(this);
 		this.getContentPane().add(m_ImagePanel); // Add the panel to the window
                 
+                 
                 //Create Thumbnail panel
-                createThumbPanel();
+                //createThumbPanel();
                 
 //                m_ThumbPanel = new JPanel(new GridLayout(4,3));
 //		m_ThumbPanel.setSize(this.getSize().width-400, 540);
@@ -223,7 +226,7 @@ public class ImageViewer extends JFrame
 
 		// Create the button panel
 		m_ButtonPanel = new JPanel();
-		m_ButtonPanel.setSize(this.getSize().width-50, 35);
+		m_ButtonPanel.setSize(this.getSize().width-600, 35);
 		m_ButtonPanel.setLocation(20, this.getSize().height-80);
 		m_ButtonPanel.setBackground(Color.LIGHT_GRAY); // Set the panel color
 		m_ButtonPanel.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
@@ -315,6 +318,7 @@ public class ImageViewer extends JFrame
 						{
 							buildImageList();
 							showImage(m_iCurImageIdx); // Show first image
+                                                        showIcon();
 						}
 						// Are we doing a slideshow with timer?
 						if(!m_bChangeManually)
@@ -614,14 +618,14 @@ public class ImageViewer extends JFrame
                     {
                             fileName = fileList[i].getAbsolutePath(); // Get path name
                             // Is it a .jpg file?
-                            if(fileName.endsWith(".thumb.jpg"))   
+                            if(fileName.endsWith(".jpg"))   
                             {
                                     // 1 == show only JPG      3 == show JPG and GIF
                                     //if((m_iShowTypes == 1) || (m_iShowTypes == 3))
 
                                             m_vThumbNames.add(fileName); // Add this one to the list
                                             File file = new File(fileName);
-                                            file.renameTo(new File ("/Users/Andrew/Documents/GitHub/Slide-Show-Creator/src/Thumbnails" + file.getName()));
+                                            file.renameTo(new File ("/Users/Andrew/Documents/GitHub/Slide-Show-Creator/src/Pictures" + file.getName()));
 
 
                             }
@@ -637,7 +641,7 @@ public class ImageViewer extends JFrame
                     fileName = (String)(m_vThumbNames.elementAt(i));
                     System.out.println(fileName);
                     File file = new File(fileName);
-                    file.renameTo(new File ("/Users/Andrew/Documents/GitHub/Slide-Show-Creator/src/Thumbnails"));
+                    file.renameTo(new File ("/Users/Andrew/Documents/GitHub/Slide-Show-Creator/src/Pictures"));
 
             }
         
@@ -648,28 +652,18 @@ public class ImageViewer extends JFrame
 	/** Create Thumbnail panel. */
 	//----------------------------------------------------------------------
         private void createThumbPanel()
-        {
-//              this.setSize(740, 600); // Make the window smaller than the screen
-//		this.setLocation(50, 50); // Set window location on screen
-//		this.setTitle("ImageViewer");
-//		this.getContentPane().setLayout(null); // We'll do our own layouts, thank you.
-//		this.getContentPane().setBackground(Color.gray); // Set visible area to gray
-//            
-//            
-//                m_ThumbPanel = new JPanel(new GridLayout(4,3));
-//		m_ThumbPanel.setSize(this.getSize().width-400, 540);
-//		m_ThumbPanel.setLocation(725, this.getSize().height-585);
-//		m_ThumbPanel.setBackground(Color.lightGray); // Set the panel color
-//		m_ThumbPanel.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
-//                m_ThumbPanel.add(new JButton(new ImageIcon(getClass().getResource("Images/DisplayOptions.jpg"))));
-////                
-            
+        {              
                 m_ThumbPanel = new JPanel(new GridLayout(4,3));
 		m_ThumbPanel.setSize(740-400, 540);
 		m_ThumbPanel.setLocation(725, 600-585);
 		m_ThumbPanel.setBackground(Color.lightGray); // Set the panel color
 		m_ThumbPanel.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
                 m_ThumbPanel.add(new JButton(new ImageIcon(getClass().getResource("Images/DisplayOptions.jpg"))));
+                
+                buildThumbList();                
+                createThumbnail();
+                
+                 
                 
 //                                JButton button = new JButton();
 //                 try {
@@ -703,6 +697,78 @@ public class ImageViewer extends JFrame
                 
                 // Use the default Flow Layout manager
 		this.getContentPane().add(m_ThumbPanel);
+        }
+        
+        //----------------------------------------------------------------------
+	/** Show table icons. */
+	//----------------------------------------------------------------------
+	private void showIcon()
+	{
+         File		chosenDir; // Directory of images
+        File[]		fileList;  // Array of files in the directory
+        List<String> tempList = new ArrayList<String>();
+        
+        String		fileName;  // Name of a file
+        String		temp; // temp name of a file
+        File            thumbNames = null;
+        chosenDir = new File(m_sImageDir);
+        if(chosenDir != null)	// If we opened it successfully
+        {
+        	fileList = chosenDir.listFiles(); // Get a list of all files
+        	// Go through the list and get the complete path of all image
+        	// files (those with .jpg and/or .gif)
+                for (int k=0; k< fileList.length;k++)
+                {
+                    temp = fileList[k].getAbsolutePath(); // Get path name
+                    if((temp.endsWith(".jpg")) || (temp.endsWith(".JPG"))) 
+                    {
+                        tempList.add(temp);
+                    }
+                }
+                String[] finalList = new String[ tempList.size() ];
+                tempList.toArray( finalList );
+                
+                
+                BufferedImage[] images = new BufferedImage[finalList.length];
+        	for(int i=0; i<images.length; i++)
+        	{
+        		//fileName = fileList[i].getAbsolutePath(); // Get path name
+                    fileName = finalList[i]; // Get path name
+                        File file = new File(fileName);
+        		// Is it a .jpg file?
+                    try {
+                        //images[i] = ImageIO.read(TableIcon.class.getResource(fileName));
+                        
+                        images[i] = ImageIO.read(file);
+                       
+                    } catch (IOException ex) {
+                        Logger.getLogger(ImageViewer.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+        	} // end for loop
+
+                
+        TableIcon test = new TableIcon(images);
+        m_label = new JLabel(" Photos Library ");
+        m_iconPanel = new JPanel();
+        //f.setDefaultCloseOperation(JPanel.EXIT_ON_CLOSE);
+      
+//        m_iconPanel.setSize(512,440);
+//        m_iconPanel.setLocation(750, 600-500);
+        m_iconPanel.setSize(512, 540);
+	m_iconPanel.setLocation(725, 600-585);
+        m_iconPanel.setBackground(Color.lightGray); // Set the panel color
+	m_iconPanel.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
+        m_iconPanel.add(m_label);
+        m_iconPanel.add(new JScrollPane(test.getTable()));
+        
+       
+      
+        	this.getContentPane().add(m_iconPanel);
+                this.setVisible(true);
+                
+        }       
+       
+
         }
         
 	
