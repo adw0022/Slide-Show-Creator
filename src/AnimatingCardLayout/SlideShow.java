@@ -33,9 +33,10 @@ import javax.swing.event.ChangeListener;
 
 
 public class SlideShow extends JFrame
-{
+{   
+   static int m_iTimeDelay;
    final static int ANIM_DUR = 2500;
-   final static int TIMER_DELAY = 6000;
+   final static int TIMER_DELAY = 1000;
    final static int DEFAULT_WINDOW_SIZE = 500;
    
    //default size of sound player control
@@ -80,7 +81,8 @@ public class SlideShow extends JFrame
         /** Vector of transition identifier */
 	static Vector m_vTransitionNumber = null;
         
-        static int m_iTransitionTypes;
+        static int m_iTransitionTypes;  
+        
         
         //------------------------------------------
       
@@ -539,7 +541,7 @@ public class SlideShow extends JFrame
 
       setContentPane (pictures);
 
-      timer = new Timer (TIMER_DELAY, al);
+      timer = new Timer (TIMER_DELAY * m_iTimeDelay, al);
       
       //OpenSlideShow(); //better try to call from main
       
@@ -630,6 +632,7 @@ public class SlideShow extends JFrame
 
     //............................. retrieve m_iTransitionTypes
     m_iTransitionTypes = Integer.parseInt(props.getProperty( "TransitionTypes" ));
+    m_iTimeDelay = Integer.parseInt(props.getProperty( "TimeDelay" ));
 
        System.out.println("SlideShow: finished retrieving properties from properties object");
      
@@ -642,14 +645,7 @@ public class SlideShow extends JFrame
     }//end OpenSlideShow()
 
    public static void main (String [] args)
-   {
-       
-//      if (args.length != 1)
-//      {
-//          System.err.println ("usage: java SlideShow imagePath");
-//          return;
-//      }
-  
+   { 
       OpenSlideShow();
       
       final File imagePath = new File (m_sImageDir); 

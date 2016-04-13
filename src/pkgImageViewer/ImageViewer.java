@@ -144,7 +144,7 @@ public class ImageViewer extends JFrame
 	private boolean m_bChangeManually = true;
 	
 	/** Time delay is using timer to change */
-	private int m_iTimeDelay = 5;
+	public int m_iTimeDelay = 5;
         
         public int m_iTransitionTypes = 0;
 	
@@ -173,11 +173,8 @@ public class ImageViewer extends JFrame
 	private Image  m_TheImage = null;	
 
 	/** Timer for slide-shows */
-	private Timer m_SSTimer;
+	private Timer m_SSTimer;       
         
-        ///////////////////////////
-        public int x;
-        public int y;
 
 	//---------------------------------------------------
 	/** Default constructor */
@@ -195,35 +192,8 @@ public class ImageViewer extends JFrame
 
 		// Create the image panel
 		m_ImagePanel = new ImagePanel(this);
-		this.getContentPane().add(m_ImagePanel); // Add the panel to the window
-                
+		this.getContentPane().add(m_ImagePanel); // Add the panel to the window            
                  
-                //Create Thumbnail panel
-                //createThumbPanel();
-                
-//                m_ThumbPanel = new JPanel(new GridLayout(4,3));
-//		m_ThumbPanel.setSize(this.getSize().width-400, 540);
-//		m_ThumbPanel.setLocation(725, this.getSize().height-585);
-//		m_ThumbPanel.setBackground(Color.lightGray); // Set the panel color
-//		m_ThumbPanel.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
-//		
-//                m_ThumbPanel.add(new JButton(new ImageIcon(getClass().getResource("Images/DisplayOptions.jpg"))));
-//                m_ThumbPanel.add(new JButton(new ImageIcon(getClass().getResource("Images/DisplayOptions.jpg"))));
-//                m_ThumbPanel.add(new JButton(new ImageIcon(getClass().getResource("Images/DisplayOptions.jpg"))));
-//                m_ThumbPanel.add(new JButton(new ImageIcon(getClass().getResource("Images/DisplayOptions.jpg"))));
-//                m_ThumbPanel.add(new JButton(new ImageIcon(getClass().getResource("Images/DisplayOptions.jpg"))));
-//                m_ThumbPanel.add(new JButton(new ImageIcon(getClass().getResource("Images/DisplayOptions.jpg"))));
-//                m_ThumbPanel.add(new JButton(new ImageIcon(getClass().getResource("Images/DisplayOptions.jpg"))));
-//                m_ThumbPanel.add(new JButton(new ImageIcon(getClass().getResource("Images/DisplayOptions.jpg"))));
-//                m_ThumbPanel.add(new JButton(new ImageIcon(getClass().getResource("Images/DisplayOptions.jpg"))));
-//                m_ThumbPanel.add(new JButton(new ImageIcon(getClass().getResource("Images/DisplayOptions.jpg"))));
-//                m_ThumbPanel.add(new JButton(new ImageIcon(getClass().getResource("Images/DisplayOptions.jpg"))));
-//                m_ThumbPanel.add(new JButton(new ImageIcon(getClass().getResource("Images/DisplayOptions.jpg"))));
-//                
-//                
-//                // Use the default Flow Layout manager
-//		this.getContentPane().add(m_ThumbPanel);
-
 		// Create the button panel
 		m_ButtonPanel = new JPanel();
 		m_ButtonPanel.setSize(this.getSize().width-600, 35);
@@ -247,6 +217,7 @@ public class ImageViewer extends JFrame
 					{
 						//	Handle setting the display options
 						OpenSlideShow();
+                                                showIcon();
 					}
 				});
 		m_ButtonPanel.add(OpenSlideShowBtn);	
@@ -346,8 +317,7 @@ public class ImageViewer extends JFrame
 				});
 		m_ButtonPanel.add(m_ShiftLeftBtn);	
 		
-		// Create the previous image button
-//		m_PrevImageBtn = new JButton(new ImageIcon("Images/BackArrow.jpg"));
+		// Create the previous image button//		
 		m_PrevImageBtn = new JButton(new ImageIcon(getClass().getResource("Images/BackArrow.jpg")));
 		m_PrevImageBtn.setSize(20, 20);
 		m_PrevImageBtn.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
@@ -363,8 +333,7 @@ public class ImageViewer extends JFrame
 				});
 		m_ButtonPanel.add(m_PrevImageBtn);	
 		
-		// Create the next image button
-//		m_NextImageBtn = new JButton(new ImageIcon("Images/NextArrow.jpg"));
+		// Create the next image button//		
 		m_NextImageBtn = new JButton(new ImageIcon(getClass().getResource("Images/NextArrow.jpg")));
 		m_NextImageBtn.setSize(20, 20);
 		m_NextImageBtn.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
@@ -456,7 +425,7 @@ public class ImageViewer extends JFrame
 	//----------------------------------------------------------------------
 	/** Show a dialog box for the user to set the display options */
 	//----------------------------------------------------------------------
-	private void setDisplayOptions()
+	public void setDisplayOptions()
 	{
 		int retVal;
 		
@@ -469,10 +438,12 @@ public class ImageViewer extends JFrame
 			m_bScaleImages = dlg.getScaleImage();
 			m_iShowTypes = dlg.getShowTypes();
 			m_bChangeManually = dlg.getChangeManually();
-			m_iTimeDelay = dlg.getTimeDelay();
+			m_iTimeDelay = dlg.getTimeDelay();                        
 		}
 		dlg.dispose(); // Destroy the dialog box
 	}
+        
+        
         
         public void setTransitionOptions()
 	{
@@ -516,97 +487,15 @@ public class ImageViewer extends JFrame
 	//----------------------------------------------------------------------
 	private void buildImageList()
 	{
-        File		chosenDir; // Directory of images
-        File[]		fileList;  // Array of files in the directory
-        String		fileName;  // Name of a file
-
-        // Create the vector of names
-        if(m_vImageNames != null) // If we already have one
-        	m_vImageNames.removeAllElements(); // Clean it out
-        else                      // If we don't have one
-        	m_vImageNames = new Vector(); // Create a new one.
-        // Open the directory
-        chosenDir = new File(m_sImageDir);
-        if(chosenDir != null)	// If we opened it successfully
-        {
-        	fileList = chosenDir.listFiles(); // Get a list of all files
-        	// Go through the list and get the complete path of all image
-        	// files (those with .jpg and/or .gif)
-        	for(int i=0; i<fileList.length; i++)
-        	{
-        		fileName = fileList[i].getAbsolutePath(); // Get path name
-        		// Is it a .jpg file?
-        		if((fileName.endsWith(".jpg")) || (fileName.endsWith(".JPG")))  
-        		{
-        			// 1 == show only JPG      3 == show JPG and GIF
-        			if((m_iShowTypes == 1) || (m_iShowTypes == 3))
-        				m_vImageNames.add(fileName); // Add this one to the list
-                                        
-        		}
-        		else if((fileName.endsWith(".jpeg")) || (fileName.endsWith(".JPEG")))  
-        		{
-        			// 1 == show only JPG      3 == show JPG and GIF
-        			if((m_iShowTypes == 1) || (m_iShowTypes == 3))
-        				m_vImageNames.add(fileName); // Add this one to the list
-        		}
-        		// Is it a .gif file?
-        		else if((fileName.endsWith(".gif")) || (fileName.endsWith(".GIF"))) // Is it a .gif file?
-        		{
-        			// 2 == show only GIF      3 == show JPG and GIF
-        			if((m_iShowTypes == 2) || (m_iShowTypes == 3))
-        				m_vImageNames.add(fileName); // Add this one to the list
-        		}
-        	} // end for loop
-        	m_iCurImageIdx = 0; // Initialize the current image index 
-        } // end if(chosenDir != null)
-        
-        // Create the vector of names
-        if(m_vTransitionNumber != null) // If we already have one
-        	m_vTransitionNumber.removeAllElements(); // Clean it out
-        else                      // If we don't have one
-        	m_vTransitionNumber = new Vector(); // Create a new one.
-        int temp = m_vImageNames.size();
-        for(int i=0; i<temp; i++){
-            m_vTransitionNumber.add("0");
-        }
-        
-        /*
-        for(int i=0; i< m_vImageNames.size(); i++)
-        {
-        	fileName = (String)(m_vImageNames.elementAt(i));
-        	System.out.println(fileName);
-        }
-        */
-	}
-        
-        //----------------------------------------------------------------------
-	/** Show image thumbnail of the chosen file. */
-	//----------------------------------------------------------------------
-	
-        private void createThumbnail() 
-        {         
-            ImageThumbnail m_iThumb = new ImageThumbnail();
-            File chosenDir = new File(m_sImageDir);
-            String dir = chosenDir.getAbsolutePath();
-            m_iThumb.run(dir);
-        }
-        
-        //----------------------------------------------------------------------
-	/** Build the list of images thumbnail to show */
-	//----------------------------------------------------------------------
-	private void buildThumbList()
-	{
             File		chosenDir; // Directory of images
             File[]		fileList;  // Array of files in the directory
             String		fileName;  // Name of a file
-            File                thumbNames = null;
-
 
             // Create the vector of names
-            if(m_vThumbNames != null) // If we already have one
-                    m_vThumbNames.removeAllElements(); // Clean it out
+            if(m_vImageNames != null) // If we already have one
+                    m_vImageNames.removeAllElements(); // Clean it out
             else                      // If we don't have one
-                    m_vThumbNames = new Vector(); // Create a new one.
+                    m_vImageNames = new Vector(); // Create a new one.
             // Open the directory
             chosenDir = new File(m_sImageDir);
             if(chosenDir != null)	// If we opened it successfully
@@ -618,157 +507,106 @@ public class ImageViewer extends JFrame
                     {
                             fileName = fileList[i].getAbsolutePath(); // Get path name
                             // Is it a .jpg file?
-                            if(fileName.endsWith(".jpg"))   
+                            if((fileName.endsWith(".jpg")) || (fileName.endsWith(".JPG")))  
                             {
                                     // 1 == show only JPG      3 == show JPG and GIF
-                                    //if((m_iShowTypes == 1) || (m_iShowTypes == 3))
-
-                                            m_vThumbNames.add(fileName); // Add this one to the list
-                                            File file = new File(fileName);
-                                            file.renameTo(new File ("/Users/Andrew/Documents/GitHub/Slide-Show-Creator/src/Pictures" + file.getName()));
-
+                                    if((m_iShowTypes == 1) || (m_iShowTypes == 3))
+                                            m_vImageNames.add(fileName); // Add this one to the list
 
                             }
-
+                            else if((fileName.endsWith(".jpeg")) || (fileName.endsWith(".JPEG")))  
+                            {
+                                    // 1 == show only JPG      3 == show JPG and GIF
+                                    if((m_iShowTypes == 1) || (m_iShowTypes == 3))
+                                            m_vImageNames.add(fileName); // Add this one to the list
+                            }
+                            // Is it a .gif file?
+                            else if((fileName.endsWith(".gif")) || (fileName.endsWith(".GIF"))) // Is it a .gif file?
+                            {
+                                    // 2 == show only GIF      3 == show JPG and GIF
+                                    if((m_iShowTypes == 2) || (m_iShowTypes == 3))
+                                            m_vImageNames.add(fileName); // Add this one to the list
+                            }
                     } // end for loop
-                    m_iCurThumbIdx = 0; // Initialize the current image index 
-            } // end if(chosenDir != null)        
+                    m_iCurImageIdx = 0; // Initialize the current image index 
+            } // end if(chosenDir != null)
 
-
-           
-            for(int i=0; i< m_vThumbNames.size(); i++)
-            {
-                    fileName = (String)(m_vThumbNames.elementAt(i));
-                    System.out.println(fileName);
-                    File file = new File(fileName);
-                    file.renameTo(new File ("/Users/Andrew/Documents/GitHub/Slide-Show-Creator/src/Pictures"));
-
+            // Create the vector of names
+            if(m_vTransitionNumber != null) // If we already have one
+                    m_vTransitionNumber.removeAllElements(); // Clean it out
+            else                      // If we don't have one
+                    m_vTransitionNumber = new Vector(); // Create a new one.
+            int temp = m_vImageNames.size();
+            for(int i=0; i<temp; i++){
+                m_vTransitionNumber.add("0");
             }
-        
-	}
-        
-        
-        //----------------------------------------------------------------------
-	/** Create Thumbnail panel. */
-	//----------------------------------------------------------------------
-        private void createThumbPanel()
-        {              
-                m_ThumbPanel = new JPanel(new GridLayout(4,3));
-		m_ThumbPanel.setSize(740-400, 540);
-		m_ThumbPanel.setLocation(725, 600-585);
-		m_ThumbPanel.setBackground(Color.lightGray); // Set the panel color
-		m_ThumbPanel.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
-                m_ThumbPanel.add(new JButton(new ImageIcon(getClass().getResource("Images/DisplayOptions.jpg"))));
-                
-                buildThumbList();                
-                createThumbnail();
-                
-                 
-                
-//                                JButton button = new JButton();
-//                 try {
-//                   Image img = ImageIO.read(getClass().getResource("Images/DisplayOptions.jpg"));
-//                   button.setIcon(new ImageIcon(img));
-//                   m_ThumbPanel.add(button);
-//                 } catch (IOException ex) {
-//                 }
-////                  
-//                File thumbFile = new File("/Users/sydney/Desktop/CS 499/Slide-Show-Creator/src/pkgImageViewer/Thumbnail/");
-//                File [] listOfFiles = thumbFile.listFiles();
-//                for (int i=0; i< listOfFiles.length; i++)
-//                {
-//                    String thumbName = listOfFiles[i].getName();
-//                    m_ThumbPanel.add(new JButton(new ImageIcon(getClass().getResource("Thumbnail/"+ thumbName))));
-//                }
-//		
-                 
-//                m_ThumbPanel.add(new JButton(new ImageIcon(getClass().getResource("Images/DisplayOptions.jpg"))));
-//                m_ThumbPanel.add(new JButton(new ImageIcon(getClass().getResource("Images/DisplayOptions.jpg"))));
-//                m_ThumbPanel.add(new JButton(new ImageIcon(getClass().getResource("Images/DisplayOptions.jpg"))));
-//                m_ThumbPanel.add(new JButton(new ImageIcon(getClass().getResource("Images/DisplayOptions.jpg"))));
-//                m_ThumbPanel.add(new JButton(new ImageIcon(getClass().getResource("Images/DisplayOptions.jpg"))));
-//                m_ThumbPanel.add(new JButton(new ImageIcon(getClass().getResource("Images/DisplayOptions.jpg"))));
-//                m_ThumbPanel.add(new JButton(new ImageIcon(getClass().getResource("Images/DisplayOptions.jpg"))));
-//                m_ThumbPanel.add(new JButton(new ImageIcon(getClass().getResource("Images/DisplayOptions.jpg"))));
-//                m_ThumbPanel.add(new JButton(new ImageIcon(getClass().getResource("Images/DisplayOptions.jpg"))));
-//                m_ThumbPanel.add(new JButton(new ImageIcon(getClass().getResource("Images/DisplayOptions.jpg"))));
-//                m_ThumbPanel.add(new JButton(new ImageIcon(getClass().getResource("Images/DisplayOptions.jpg"))));
-
-                
-                // Use the default Flow Layout manager
-		this.getContentPane().add(m_ThumbPanel);
-        }
-        
+      	}   
+         
         //----------------------------------------------------------------------
 	/** Show table icons. */
 	//----------------------------------------------------------------------
 	private void showIcon()
 	{
-         File		chosenDir; // Directory of images
-        File[]		fileList;  // Array of files in the directory
-        List<String> tempList = new ArrayList<String>();
-        
-        String		fileName;  // Name of a file
-        String		temp; // temp name of a file
-        File            thumbNames = null;
-        chosenDir = new File(m_sImageDir);
-        if(chosenDir != null)	// If we opened it successfully
-        {
-        	fileList = chosenDir.listFiles(); // Get a list of all files
-        	// Go through the list and get the complete path of all image
-        	// files (those with .jpg and/or .gif)
-                for (int k=0; k< fileList.length;k++)
-                {
-                    temp = fileList[k].getAbsolutePath(); // Get path name
-                    if((temp.endsWith(".jpg")) || (temp.endsWith(".JPG"))) 
+            File		chosenDir; // Directory of images
+            File[]		fileList;  // Array of files in the directory
+            List<String> tempList = new ArrayList<String>();
+
+            String		fileName;  // Name of a file
+            String		temp; // temp name of a file
+            File            thumbNames = null;
+            chosenDir = new File(m_sImageDir);
+            if(chosenDir != null)	// If we opened it successfully
+            {
+                    fileList = chosenDir.listFiles(); // Get a list of all files
+                    // Go through the list and get the complete path of all image
+                    // files (those with .jpg and/or .gif)
+                    for (int k=0; k< fileList.length;k++)
                     {
-                        tempList.add(temp);
+                        temp = fileList[k].getAbsolutePath(); // Get path name
+                        if((temp.endsWith(".jpg")) || (temp.endsWith(".JPG"))) 
+                        {
+                            tempList.add(temp);
+                        }
                     }
-                }
-                String[] finalList = new String[ tempList.size() ];
-                tempList.toArray( finalList );
-                
-                
-                BufferedImage[] images = new BufferedImage[finalList.length];
-        	for(int i=0; i<images.length; i++)
-        	{
-        		//fileName = fileList[i].getAbsolutePath(); // Get path name
-                    fileName = finalList[i]; // Get path name
-                        File file = new File(fileName);
-        		// Is it a .jpg file?
-                    try {
-                        //images[i] = ImageIO.read(TableIcon.class.getResource(fileName));
-                        
-                        images[i] = ImageIO.read(file);
-                       
-                    } catch (IOException ex) {
-                        Logger.getLogger(ImageViewer.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-        	} // end for loop
+                    String[] finalList = new String[ tempList.size() ];
+                    tempList.toArray( finalList );
 
-                
-        TableIcon test = new TableIcon(images);
-        m_label = new JLabel(" Photos Library ");
-        m_iconPanel = new JPanel();
-        //f.setDefaultCloseOperation(JPanel.EXIT_ON_CLOSE);
-      
-//        m_iconPanel.setSize(512,440);
-//        m_iconPanel.setLocation(750, 600-500);
-        m_iconPanel.setSize(512, 540);
-	m_iconPanel.setLocation(725, 600-585);
-        m_iconPanel.setBackground(Color.lightGray); // Set the panel color
-	m_iconPanel.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
-        m_iconPanel.add(m_label);
-        m_iconPanel.add(new JScrollPane(test.getTable()));
-        
-       
-      
-        	this.getContentPane().add(m_iconPanel);
-                this.setVisible(true);
-                
-        }       
-       
 
+                    BufferedImage[] images = new BufferedImage[finalList.length];
+                    for(int i=0; i<images.length; i++)
+                    {
+                            //fileName = fileList[i].getAbsolutePath(); // Get path name
+                        fileName = finalList[i]; // Get path name
+                            File file = new File(fileName);
+                            // Is it a .jpg file?
+                        try {
+                            //images[i] = ImageIO.read(TableIcon.class.getResource(fileName));
+
+                            images[i] = ImageIO.read(file);
+
+                        } catch (IOException ex) {
+                            Logger.getLogger(ImageViewer.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    } // end for loop
+
+
+            TableIcon test = new TableIcon(images);
+            m_label = new JLabel(" Photos Library ");
+            m_iconPanel = new JPanel();          
+            m_iconPanel.setSize(512, 540);
+            m_iconPanel.setLocation(725, 600-585);
+            m_iconPanel.setBackground(Color.lightGray); // Set the panel color
+            m_iconPanel.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
+            m_iconPanel.add(m_label);
+            m_iconPanel.add(new JScrollPane(test.getTable()));
+
+
+
+                    this.getContentPane().add(m_iconPanel);
+                    this.setVisible(true);
+
+            }       
+       
         }
         
 	

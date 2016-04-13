@@ -5,9 +5,9 @@
 <entry key="ImageNames">C:\Users\Andrew\Documents\GitHub\Slide-Show-Creator\src\Pictures\Image02.jpg,C:\Users\Andrew\Documents\GitHub\Slide-Show-Creator\src\Pictures\Image03.jpg,C:\Users\Andrew\Documents\GitHub\Slide-Show-Creator\src\Pictures\Image04.jpg,C:\Users\Andrew\Documents\GitHub\Slide-Show-Creator\src\Pictures\Image05.jpg</entry>
 <entry key="ShowTypes">3</entry>
 <entry key="ImageDir">C:\Users\Andrew\Documents\GitHub\Slide-Show-Creator\src\Pictures</entry>
-<entry key="TransitionTypes">1</entry>
 <entry key="ScaleImages">true</entry>
-<entry key="ChangeManually">true</entry>
-<entry key="TimeDelay">5</entry>
+<entry key="TransitionTypes">0</entry>
+<entry key="ChangeManually">false</entry>
 <entry key="TransitionNames">0,0,0,0</entry>
+<entry key="TimeDelay">7</entry>
 </properties>
