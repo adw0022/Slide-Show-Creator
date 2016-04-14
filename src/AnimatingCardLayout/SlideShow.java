@@ -614,6 +614,26 @@ public class SlideShow extends JFrame
      //....................... retrieve m_sImageDir
      m_sSoundFile = props.getProperty( "SoundFile");
      
+     //............................retrieve m_vImageNames
+     m_vImageNames = new Vector();
+     String stringOfImageNames;   
+     stringOfImageNames = props.getProperty("ImageNames");
+     
+    //convert back from single string to stringArray using split      
+    stringArray = stringOfImageNames.split(",");
+
+    //assign strings from stringArray as elements of vector m_vImageNames 
+    
+    System.out.println("in OpenSlideShow: retrieving image names and assigning to m_vImageNames ");
+    
+    for(String s: stringArray) {
+        
+        m_vImageNames.add(s); // Add this one to vector
+        System.out.println(s);  
+    }
+    stringArray = null;    //clear stringArray
+
+    
     
      //............................retrieve m_vTransitionNumber
      m_vTransitionNumber = new Vector();
@@ -647,7 +667,7 @@ public class SlideShow extends JFrame
         System.out.print("string:  m_sImageDir:  ");
         System.out.printf("%s\n",  m_sImageDir);
         
-        System.out.print("string:  m_sImageDir:  ");
+        System.out.print("string:  m_sSoundFile:  ");
         System.out.printf("%s\n",  m_sSoundFile);
         
         
@@ -668,25 +688,16 @@ public class SlideShow extends JFrame
                    {
                        public void run ()
                        {
-                          // Load all GIF and JPEG images in the imagePath.
+                          //Load all images listed in vector m_vImageNames to ArrayList images
 
-                          File [] filePaths = imagePath.listFiles ();
-                          for (File filePath: filePaths)
+                          for (Object filePathObject: m_vImageNames)
                           { 
-                               if (filePath.isDirectory ())
-                                   continue;
-
-                               String name;
-                               name = filePath.getName ().toLowerCase ();
-                               if (name.endsWith (".gif") ||
-                                   name.endsWith (".jpg"))
-                               {
-                                   System.out.println ("Loading "+filePath);
-
+                                   String imageName = (String) filePathObject; //cast nas string
+                                  
                                    ImageIcon ii;
-                                   ii = new ImageIcon (filePath.toString ());
+                                   ii = new ImageIcon (imageName);
                                    images.add (ii);
-                               }
+                               
                           }
 
                           if (images.size () < 2)
