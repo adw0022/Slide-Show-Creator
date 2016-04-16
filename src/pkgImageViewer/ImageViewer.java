@@ -315,6 +315,7 @@ public class ImageViewer extends JFrame
 					{
 						//Move image left
                                             shiftImageLeft();
+                                            showIcon();
 					}
 				});
 		m_ButtonPanel.add(m_ShiftLeftBtn);	
@@ -363,6 +364,7 @@ public class ImageViewer extends JFrame
 					{
 						//Move image right
                                             shiftImageRight();
+                                            showIcon();
 					}
 				});
 		m_ButtonPanel.add(m_ShiftRightBtn);
@@ -575,7 +577,7 @@ public class ImageViewer extends JFrame
 
             String		fileName;  // Name of a file
             String		temp; // temp name of a file
-            File            thumbNames = null;
+            File                thumbNames = null;
             chosenDir = new File(m_sImageDir);
             if(chosenDir != null)	// If we opened it successfully
             {
@@ -595,10 +597,10 @@ public class ImageViewer extends JFrame
 
 
                     BufferedImage[] images = new BufferedImage[finalList.length];
-                    for(int i=0; i<images.length; i++)
+                    for(int i=0; i<m_vImageNames.size(); i++)
                     {
                             //fileName = fileList[i].getAbsolutePath(); // Get path name
-                        fileName = finalList[i]; // Get path name
+                        fileName = (String) m_vImageNames.get(i); // Get path name
                             File file = new File(fileName);
                             // Is it a .jpg file?
                         try {
@@ -903,9 +905,10 @@ public class ImageViewer extends JFrame
         //....................... save m_sImageDir
         props.setProperty( "ImageDir", m_sImageDir );
         
-         //....................... save m_sSoundFile
-        props.setProperty( "SoundFile", m_sSoundFile );
-         
+        if(m_sSoundFile != null){
+            //....................... save m_sSoundFile
+            props.setProperty( "SoundFile", m_sSoundFile );
+        }
         
         //............................save m_vImageNames
         String stringOfImageNames;
