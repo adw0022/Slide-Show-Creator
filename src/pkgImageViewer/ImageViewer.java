@@ -296,7 +296,7 @@ public class ImageViewer extends JFrame
 						// Are we doing a slideshow with timer?
 						if(!m_bChangeManually)
 						{
-							doTimerSlideShow();
+							//doTimerSlideShow();
 						}
 					}
 				});

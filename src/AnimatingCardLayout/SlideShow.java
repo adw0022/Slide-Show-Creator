@@ -38,10 +38,11 @@ public class SlideShow extends JFrame
    final static int ANIM_DUR = 2500;
    final static int TIMER_DELAY = 1000;
    final static int DEFAULT_WINDOW_SIZE = 500;
+   static double SpeedupFactor = 1.0;
    
    //default size of sound player control
    final static int SOUNDPlAYER_DEFAULT_WINDOW_X_SIZE = 1858;
-   final static int SOUNDPlAYER_DEFAULT_WINDOW_Y_SIZE = 30;
+   final static int SOUNDPlAYER_DEFAULT_WINDOW_Y_SIZE = 60;
    
 //  int theValue = (new pkgImageViewer.ImageViewer()).getValue();
 
@@ -119,6 +120,8 @@ public class SlideShow extends JFrame
       // The following fields are for the GUI
       JButton play; // The Play/Stop button
 
+      JButton ffwrd; // The ffrwd button
+      
       JSlider progress; // Shows and sets current position in sound
 
       JLabel time; // Displays audioPosition as a number
@@ -171,7 +174,8 @@ public class SlideShow extends JFrame
         play = new JButton("Play"); // Play/stop button
         progress = new JSlider(0, audioLength, 0); // Shows position in sound
         time = new JLabel("0"); // Shows position as a #
-
+        ffwrd = new JButton("ffwrd"); // ffwd button
+        
         // When clicked, start or stop playing the sound
         play.addActionListener(new ActionListener() {
           public void actionPerformed(ActionEvent e) {
@@ -182,6 +186,31 @@ public class SlideShow extends JFrame
           }
         });
 
+        // When clicked, start or stop playing the sound
+        ffwrd.addActionListener(new ActionListener() {
+          public void actionPerformed(ActionEvent e) {
+              
+              AnimatingCardLayout my_acl = (AnimatingCardLayout) pictures.getLayout();
+              
+              if (SpeedupFactor == 1.0) {
+                  System.out.println("i have sped up.");
+                  SpeedupFactor = 20.0;
+                  my_acl.setAnimationDuration ((int) (ANIM_DUR / SpeedupFactor));
+              }
+              else {
+                  SpeedupFactor = 1.0;
+                  my_acl.setAnimationDuration ((int) (ANIM_DUR / SpeedupFactor));
+              }
+              
+              pictures.setLayout (my_acl);//assign layout to pictures            
+              
+              //speed up main timer between slides
+              
+              SlideShow.this.timer.setDelay((int) (TIMER_DELAY / SpeedupFactor * m_iTimeDelay ));
+          }
+        });
+        
+        
         // Whenever the slider value changes, first update the time label.
         // Next, if we're not already at the new position, skip to it.
         progress.addChangeListener(new ChangeListener() {
@@ -209,8 +238,10 @@ public class SlideShow extends JFrame
         // put those controls in a row
         Box row = Box.createHorizontalBox();
         row.add(play);
+        row.add(ffwrd);
         row.add(progress);
         row.add(time);
+        
 
         // And add them to this component.
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -471,7 +502,7 @@ public class SlideShow extends JFrame
       pictures.setBackground (Color.GRAY);
 
       acl = new AnimatingCardLayout ();
-      acl.setAnimationDuration (ANIM_DUR);
+      acl.setAnimationDuration ((int) (ANIM_DUR / SpeedupFactor));
       pictures.setLayout (acl);
 
       JLabel picture = new JLabel ();
@@ -506,7 +537,7 @@ public class SlideShow extends JFrame
                  // [4]- fade-from-black
                  // [5]- fade-from-white                
                  
-                               
+                  
                  acl.setAnimation (animations [m_iTransitionTypes]);
 
                   //random selection of transition
@@ -544,7 +575,7 @@ public class SlideShow extends JFrame
 
       setContentPane (pictures);
 
-      timer = new Timer (TIMER_DELAY * m_iTimeDelay, al);
+      timer = new Timer ((int) (TIMER_DELAY / SpeedupFactor * m_iTimeDelay ), al);
       
       //OpenSlideShow(); //better try to call from main
       
@@ -667,7 +698,7 @@ public class SlideShow extends JFrame
         System.out.print("string:  m_sImageDir:  ");
         System.out.printf("%s\n",  m_sImageDir);
         
-        System.out.print("string:  m_sSoundFile:  ");
+        System.out.print("string:  m_sImageDir:  ");
         System.out.printf("%s\n",  m_sSoundFile);
         
         
