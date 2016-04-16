@@ -218,6 +218,7 @@ public class ImageViewer extends JFrame
 					{
 						//	Handle setting the display options
 						OpenSlideShow();
+
                                                 showIcon();
 					}
 				});
@@ -459,7 +460,8 @@ public class ImageViewer extends JFrame
 		{			
 			m_iTransitionTypes = dlg1.getTransitionTypes();                    
 		}
-		dlg1.dispose(); // Destroy the dialog box   
+		dlg1.dispose(); // Destroy the dialog box
+                m_vTransitionNumber.set(m_iCurImageIdx,dlg1.getTransitionTypes());
 	}
         
 	
@@ -558,7 +560,7 @@ public class ImageViewer extends JFrame
                     m_vTransitionNumber = new Vector(); // Create a new one.
             int temp = m_vImageNames.size();
             for(int i=0; i<temp; i++){
-                m_vTransitionNumber.add("0");
+                m_vTransitionNumber.add(0);
             }
       	}    
         
@@ -855,7 +857,7 @@ public class ImageViewer extends JFrame
                     Logger.getLogger(ImageViewer.class.getName()).log(Level.SEVERE, null, ex);
                 }
 
-                String tempbuffer = (String) m_vTransitionNumber.get(i);
+                String tempbuffer = m_vTransitionNumber.elementAt(i).toString();
 
                 try 
                 {

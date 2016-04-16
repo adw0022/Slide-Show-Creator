@@ -535,11 +535,16 @@ public class SlideShow extends JFrame
                  // [2]- fade-to-black
                  // [3]- fade-to-white
                  // [4]- fade-from-black
-                 // [5]- fade-from-white                
-                 
-                 if (m_iTransitionTypes != 6)
+                 // [5]- fade-from-white
+                 // [6]- random
+                 String temp = (String) m_vTransitionNumber.get(index);
+                 int temp2 = Integer.valueOf(temp);
+                 if (temp2 != 6)
                  {
-                    acl.setAnimation (animations [m_iTransitionTypes]);
+                    
+                    temp = (String) m_vTransitionNumber.get(index);
+                    temp2 = Integer.valueOf(temp);
+                    acl.setAnimation (animations [temp2]);
                  }
                  else
                  {                  
@@ -599,6 +604,8 @@ public class SlideShow extends JFrame
                InvalidMidiDataException ee){
             ee.printStackTrace();
         }
+        
+        
           
    }//end constructor of SlideShow
 
