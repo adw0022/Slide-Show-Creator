@@ -537,12 +537,14 @@ public class SlideShow extends JFrame
                  // [4]- fade-from-black
                  // [5]- fade-from-white                
                  
-                  
-                 acl.setAnimation (animations [m_iTransitionTypes]);
-
-                  //random selection of transition
-//                  acl.setAnimation (animations [(int) (Math.random ()*
-//                                                animations.length)]);
+                 if (m_iTransitionTypes != 6)
+                 {
+                    acl.setAnimation (animations [m_iTransitionTypes]);
+                 }
+                 else
+                 {                  
+                    acl.setAnimation (animations [(int) (Math.random ()* animations.length)]);
+                 }
 
                   if ((index & 1) == 0) // Even indexes
                   {

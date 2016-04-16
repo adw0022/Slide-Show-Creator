@@ -43,23 +43,26 @@ public class SetTransitionOptionsDlg extends JDialog
 	/** Label font used for small labels */
 	public static final Font SysSmallLabelFontB = new Font("SansSerif", Font.BOLD, 14);	
 	
-	/** Fade-in radio button */
+	/** Slide radio button */
 	private JRadioButton m_SlideRB;
         
-        /** Fade-out radio button */
+        /** Cross-Fade radio button */
 	private JRadioButton m_CrossFadeRB;
         
-        /** Wipe-up radio button */
+        /** Fade to Black radio button */
 	private JRadioButton m_FadetoBlackRB;
         
-        /** Wipe-down radio button */
+        /** Fade to White radio button */
 	private JRadioButton m_FadetoWhiteRB;
         
-        /** Wipe-left radio button */
+        /** Fade from Blck radio button */
 	private JRadioButton m_FadefromBlackRB;
         
-        /** Wipe-right radio button */
+        /** Fade from White radio button */
 	private JRadioButton m_FadefromWhiteRB;
+        
+        /** Random radio button */
+	private JRadioButton m_RandomRB;
 	
 	
 	//------------------------------------------------
@@ -86,7 +89,7 @@ public class SetTransitionOptionsDlg extends JDialog
 		lbl.setLocation(100,5);
 		this.add(lbl);
                 
-                // Fade-in radio button
+                // Slide radio button
                 m_SlideRB = new JRadioButton("Slide");
 		m_SlideRB.setSize(120, 20);
 		m_SlideRB.setLocation(100, 25);
@@ -94,7 +97,7 @@ public class SetTransitionOptionsDlg extends JDialog
 		m_SlideRB.setBackground(Color.lightGray);
 		this.add(m_SlideRB);
                 
-                // Fade-out radio button
+                // Cross-Fade radio button
                 m_CrossFadeRB = new JRadioButton("Cross-Fade");
 		m_CrossFadeRB.setSize(120, 20);
 		m_CrossFadeRB.setLocation(100, 45);
@@ -102,7 +105,7 @@ public class SetTransitionOptionsDlg extends JDialog
 		m_CrossFadeRB.setBackground(Color.lightGray);
 		this.add(m_CrossFadeRB);
 		
-                // Wipe-up radio button
+                // Fade to Black radio button
                 m_FadetoBlackRB = new JRadioButton("Fade-to-Black");
 		m_FadetoBlackRB.setSize(120, 20);
 		m_FadetoBlackRB.setLocation(100, 65);
@@ -110,7 +113,7 @@ public class SetTransitionOptionsDlg extends JDialog
 		m_FadetoBlackRB.setBackground(Color.lightGray);
 		this.add(m_FadetoBlackRB);
                 
-                // Wipe-down radio button
+                // Fade to White radio button
                 m_FadetoWhiteRB = new JRadioButton("Fade-to-White");
 		m_FadetoWhiteRB.setSize(120, 20);
 		m_FadetoWhiteRB.setLocation(100, 85);
@@ -118,7 +121,7 @@ public class SetTransitionOptionsDlg extends JDialog
 		m_FadetoWhiteRB.setBackground(Color.lightGray);
 		this.add(m_FadetoWhiteRB);
                 
-                // Wipe-left radio button
+                // Fade from Black radio button
                 m_FadefromBlackRB = new JRadioButton("Fade-from-Black");
 		m_FadefromBlackRB.setSize(120, 20);
 		m_FadefromBlackRB.setLocation(100, 105);
@@ -126,7 +129,7 @@ public class SetTransitionOptionsDlg extends JDialog
 		m_FadefromBlackRB.setBackground(Color.lightGray);
 		this.add(m_FadefromBlackRB);
                 
-                // Wipe-right radio button
+                // Fade from White radio button
                 m_FadefromWhiteRB = new JRadioButton("Fade-from-White");
 		m_FadefromWhiteRB.setSize(120, 20);
 		m_FadefromWhiteRB.setLocation(100, 125);
@@ -134,6 +137,13 @@ public class SetTransitionOptionsDlg extends JDialog
 		m_FadefromWhiteRB.setBackground(Color.lightGray);
 		this.add(m_FadefromWhiteRB);	
 		
+                // Random radio button
+                m_RandomRB = new JRadioButton("Random");
+		m_RandomRB.setSize(120, 20);
+		m_RandomRB.setLocation(100, 145);
+		m_RandomRB.setSelected(false);
+		m_RandomRB.setBackground(Color.lightGray);
+		this.add(m_RandomRB);	
 		
 		
 		// Create the OK button
@@ -195,7 +205,8 @@ public class SetTransitionOptionsDlg extends JDialog
                 else if(m_FadetoWhiteRB.isSelected()) return 3;
                 else if(m_FadefromBlackRB.isSelected()) return 4;
                 else if(m_FadefromWhiteRB.isSelected()) return 5;
-		else return 6;
+                else if(m_RandomRB.isSelected()) return 6;
+		else return 7;
 	}
 	
 	

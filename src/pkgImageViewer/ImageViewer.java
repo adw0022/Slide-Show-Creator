@@ -315,7 +315,6 @@ public class ImageViewer extends JFrame
 					{
 						//Move image left
                                             shiftImageLeft();
-                                            showIcon();
 					}
 				});
 		m_ButtonPanel.add(m_ShiftLeftBtn);	
@@ -364,7 +363,6 @@ public class ImageViewer extends JFrame
 					{
 						//Move image right
                                             shiftImageRight();
-                                            showIcon();
 					}
 				});
 		m_ButtonPanel.add(m_ShiftRightBtn);
@@ -569,34 +567,34 @@ public class ImageViewer extends JFrame
         //----------------------------------------------------------------------
 	/** Show table icons. */
 	//----------------------------------------------------------------------
-	private void showIcon()
+	private void showIcon(){
 	{
-            File		chosenDir; // Directory of images
-            File[]		fileList;  // Array of files in the directory
-            List<String> tempList = new ArrayList<String>();
+//            File		chosenDir; // Directory of images
+//            File[]		fileList;  // Array of files in the directory
+//            List<String> tempList = new ArrayList<String>();
+//
+              String		fileName;  // Name of a file
+//            String		temp; // temp name of a file
+//            File                thumbNames = null;
+//            chosenDir = new File(m_sImageDir);
+//            if(chosenDir != null)	// If we opened it successfully
+//            {
+//                    fileList = chosenDir.listFiles(); // Get a list of all files
+//                    // Go through the list and get the complete path of all image
+//                    // files (those with .jpg and/or .gif)
+//                    for (int k=0; k< fileList.length;k++)
+//                    {
+//                        temp = fileList[k].getAbsolutePath(); // Get path name
+//                        if((temp.endsWith(".jpg")) || (temp.endsWith(".JPG"))) 
+//                        {
+//                            tempList.add(temp);
+//                        }
+//                    }
+//                    String[] finalList = new String[ tempList.size() ];
+//                    tempList.toArray( finalList );
 
-            String		fileName;  // Name of a file
-            String		temp; // temp name of a file
-            File                thumbNames = null;
-            chosenDir = new File(m_sImageDir);
-            if(chosenDir != null)	// If we opened it successfully
-            {
-                    fileList = chosenDir.listFiles(); // Get a list of all files
-                    // Go through the list and get the complete path of all image
-                    // files (those with .jpg and/or .gif)
-                    for (int k=0; k< fileList.length;k++)
-                    {
-                        temp = fileList[k].getAbsolutePath(); // Get path name
-                        if((temp.endsWith(".jpg")) || (temp.endsWith(".JPG"))) 
-                        {
-                            tempList.add(temp);
-                        }
-                    }
-                    String[] finalList = new String[ tempList.size() ];
-                    tempList.toArray( finalList );
 
-
-                    BufferedImage[] images = new BufferedImage[finalList.length];
+                    BufferedImage[] images = new BufferedImage[m_vImageNames.size()];
                     for(int i=0; i<m_vImageNames.size(); i++)
                     {
                             //fileName = fileList[i].getAbsolutePath(); // Get path name
@@ -685,6 +683,7 @@ public class ImageViewer extends JFrame
 			Collections.swap(m_vImageNames, m_iCurImageIdx, temp);
                         Collections.swap(m_vTransitionNumber, m_iCurImageIdx, temp); 
 			showImage(m_iCurImageIdx); // Show it
+                        showIcon();
 		}
 	}
         
@@ -699,6 +698,7 @@ public class ImageViewer extends JFrame
 			Collections.swap(m_vImageNames, m_iCurImageIdx, temp);
                         Collections.swap(m_vTransitionNumber, m_iCurImageIdx, temp);
 			showImage(m_iCurImageIdx); // Show it
+                        showIcon();
 		}
 	}
 	
