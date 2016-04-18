@@ -242,7 +242,7 @@ public class SetTransitionOptionsDlg extends JDialog
                 else if(m_SlideLeftRB.isSelected()) return 7;
                 else if(m_SlideRightRB.isSelected()) return 8;                
                 else if(m_RandomRB.isSelected()) return 9;
-		else return 10;
+		else return 9;
 	}
 	
 	

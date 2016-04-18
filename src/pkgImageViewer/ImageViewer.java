@@ -670,7 +670,7 @@ public class ImageViewer extends JFrame
 		if(m_iCurImageIdx > 0)
 		{			
                         m_iCurImageIdx--; // Decrement to previous image
-			showImage(m_iCurImageIdx); // Show it
+			showImage(m_iCurImageIdx); // Show it                       
 		}
 	}
         
@@ -712,7 +712,7 @@ public class ImageViewer extends JFrame
 		if(m_iCurImageIdx < (m_vImageNames.size() - 1))
 		{
 			m_iCurImageIdx++; // Increment to next image
-			showImage(m_iCurImageIdx); // Show it
+			showImage(m_iCurImageIdx); // Show it                        
 		}
 	}
 
