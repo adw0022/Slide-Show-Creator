@@ -24,14 +24,15 @@ public class ImagePanel extends JPanel
 	/** Default constructor */
 	//--------------------------------------------------------
 	public ImagePanel(JFrame parent)
-	{
-		m_Parent = parent;
-		this.setSize(m_Parent.getSize().width-50, 
+	{            
+		m_Parent = parent;            
+                m_Parent.setVisible(true);
+		this.setSize(m_Parent.getSize().width-600, 
 				m_Parent.getSize().height-100);   // Set the size 
 		this.setLocation(20, 15);       // Set the location in the window
 		this.setBackground(Color.lightGray); // Set the panel color
 		this.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED)); // Give it a border
-		this.setLayout(null); // No layout manager.  We‘ll place everything
+		this.setLayout(null); // No layout manager.  We will place everything                
 	}
 	
 	//--------------------------------------------------------

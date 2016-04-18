@@ -187,7 +187,7 @@ public class SetDisplayOptionsDlg extends JDialog
 		m_OKBtn = new JButton("OK");
 		m_OKBtn.setSize(50, 20);
 		m_OKBtn.setLocation(75, 170);
-		m_OKBtn.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
+		m_OKBtn.setBorder(BorderFactory.createCompoundBorder());
 		m_OKBtn.addActionListener(
 				new ActionListener()
 				{
@@ -204,7 +204,7 @@ public class SetDisplayOptionsDlg extends JDialog
 		m_CancelBtn = new JButton("Cancel");
 		m_CancelBtn.setSize(50, 20);
 		m_CancelBtn.setLocation(200, 170);
-		m_CancelBtn.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
+		m_CancelBtn.setBorder(BorderFactory.createCompoundBorder());
 		m_CancelBtn.addActionListener(
 				new ActionListener()
 				{

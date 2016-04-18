@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<comment>slideShow settings</comment>
+<entry key="ImageNames">C:\Users\Andrew\Documents\GitHub\Slide-Show-Creator\src\Pictures\image08.jpg,C:\Users\Andrew\Documents\GitHub\Slide-Show-Creator\src\Pictures\image03.jpg,C:\Users\Andrew\Documents\GitHub\Slide-Show-Creator\src\Pictures\image01.jpg,C:\Users\Andrew\Documents\GitHub\Slide-Show-Creator\src\Pictures\image05.jpg,C:\Users\Andrew\Documents\GitHub\Slide-Show-Creator\src\Pictures\image02.jpg,C:\Users\Andrew\Documents\GitHub\Slide-Show-Creator\src\Pictures\image04.jpg,C:\Users\Andrew\Documents\GitHub\Slide-Show-Creator\src\Pictures\image06.jpg,C:\Users\Andrew\Documents\GitHub\Slide-Show-Creator\src\Pictures\image07.jpg</entry>
+<entry key="ChangeManually">true</entry>
+<entry key="TransitionTypes">9</entry>
+<entry key="ScaleImages">true</entry>
+<entry key="SoundFile">C:\Users\Andrew\Documents\GitHub\Slide-Show-Creator\src\SoundFiles\Movie_Themes_-_Mortal_Kombat.mid</entry>
+<entry key="TransitionNames">9,9,9,9,9,9,9,9</entry>
+<entry key="ShowTypes">3</entry>
+<entry key="TimeDelay">5</entry>
+<entry key="ImageDir">C:\Users\Andrew\Documents\GitHub\Slide-Show-Creator\src\Pictures</entry>
+</properties>
