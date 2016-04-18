@@ -42,9 +42,6 @@ public class SetTransitionOptionsDlg extends JDialog
 	
 	/** Label font used for small labels */
 	public static final Font SysSmallLabelFontB = new Font("SansSerif", Font.BOLD, 14);	
-	
-	/** Slide radio button */
-	private JRadioButton m_SlideRB;
         
         /** Cross-Fade radio button */
 	private JRadioButton m_CrossFadeRB;
@@ -55,7 +52,7 @@ public class SetTransitionOptionsDlg extends JDialog
         /** Fade to White radio button */
 	private JRadioButton m_FadetoWhiteRB;
         
-        /** Fade from Blck radio button */
+        /** Fade from Black radio button */
 	private JRadioButton m_FadefromBlackRB;
         
         /** Fade from White radio button */
@@ -63,6 +60,19 @@ public class SetTransitionOptionsDlg extends JDialog
         
         /** Random radio button */
 	private JRadioButton m_RandomRB;
+        
+        /** SlideUp radio button */
+	private JRadioButton m_SlideUpRB;
+        
+        /** SlideDown radio button */
+	private JRadioButton m_SlideDownRB;
+        
+        /** SlideLeft radio button */
+	private JRadioButton m_SlideLeftRB;
+        
+        /** SlideRight radio button */
+	private JRadioButton m_SlideRightRB;
+        
 	
 	
 	//------------------------------------------------
@@ -72,7 +82,7 @@ public class SetTransitionOptionsDlg extends JDialog
 	{
 		super(owner, modal); // Call the super class constructor
 		// Create the dialog frame
-		this.setSize(340, 240);
+		this.setSize(340, 325);
 		// Set the location so that the dialog box pops up centered on the owner
 		this.setLocation((owner.getWidth() - this.getWidth()) / 2 , 
 				         (owner.getHeight() - this.getHeight())/ 2); 
@@ -87,15 +97,7 @@ public class SetTransitionOptionsDlg extends JDialog
 		lbl.setSize(100, 20);
 		lbl.setFont(SysTitleFontB);
 		lbl.setLocation(100,5);
-		this.add(lbl);
-                
-                // Slide radio button
-                m_SlideRB = new JRadioButton("Slide");
-		m_SlideRB.setSize(120, 20);
-		m_SlideRB.setLocation(100, 25);
-		m_SlideRB.setSelected(false);
-		m_SlideRB.setBackground(Color.lightGray);
-		this.add(m_SlideRB);
+		this.add(lbl);        
                 
                 // Cross-Fade radio button
                 m_CrossFadeRB = new JRadioButton("Cross-Fade");
@@ -135,21 +137,52 @@ public class SetTransitionOptionsDlg extends JDialog
 		m_FadefromWhiteRB.setLocation(100, 125);
 		m_FadefromWhiteRB.setSelected(false);
 		m_FadefromWhiteRB.setBackground(Color.lightGray);
-		this.add(m_FadefromWhiteRB);	
-		
+		this.add(m_FadefromWhiteRB);	               
+                
+                // SlideUp radio button
+                m_SlideUpRB = new JRadioButton("Slide-Up");
+		m_SlideUpRB.setSize(120, 20);
+		m_SlideUpRB.setLocation(100, 145);
+		m_SlideUpRB.setSelected(false);
+		m_SlideUpRB.setBackground(Color.lightGray);
+		this.add(m_SlideUpRB);
+                
+                // SlideDown radio button
+                m_SlideDownRB = new JRadioButton("Slide-Down");
+		m_SlideDownRB.setSize(120, 20);
+		m_SlideDownRB.setLocation(100, 165);
+		m_SlideDownRB.setSelected(false);
+		m_SlideDownRB.setBackground(Color.lightGray);
+		this.add(m_SlideDownRB);
+                
+                // SlideLeft radio button
+                m_SlideLeftRB = new JRadioButton("Slide-Left");
+		m_SlideLeftRB.setSize(120, 20);
+		m_SlideLeftRB.setLocation(100, 185);
+		m_SlideLeftRB.setSelected(false);
+		m_SlideLeftRB.setBackground(Color.lightGray);
+		this.add(m_SlideLeftRB);
+                
+                // SlideRight radio button
+                m_SlideRightRB = new JRadioButton("Slide-Right");
+		m_SlideRightRB.setSize(120, 20);
+		m_SlideRightRB.setLocation(100, 205);
+		m_SlideRightRB.setSelected(false);
+		m_SlideRightRB.setBackground(Color.lightGray);
+		this.add(m_SlideRightRB);
+                
                 // Random radio button
                 m_RandomRB = new JRadioButton("Random");
 		m_RandomRB.setSize(120, 20);
-		m_RandomRB.setLocation(100, 145);
+		m_RandomRB.setLocation(100, 225);
 		m_RandomRB.setSelected(false);
 		m_RandomRB.setBackground(Color.lightGray);
 		this.add(m_RandomRB);	
-		
-		
-		// Create the OK button
+                
+                // Create the OK button
 		m_OKBtn = new JButton("OK");
 		m_OKBtn.setSize(50, 20);
-		m_OKBtn.setLocation(75, 170);
+		m_OKBtn.setLocation(75, 250);
 		m_OKBtn.setBorder(BorderFactory.createCompoundBorder());
 		m_OKBtn.addActionListener(
 				new ActionListener()
@@ -166,7 +199,7 @@ public class SetTransitionOptionsDlg extends JDialog
 		// Create the Cancel button
 		m_CancelBtn = new JButton("Cancel");
 		m_CancelBtn.setSize(50, 20);
-		m_CancelBtn.setLocation(200, 170);
+		m_CancelBtn.setLocation(200, 250);
 		m_CancelBtn.setBorder(BorderFactory.createCompoundBorder());
 		m_CancelBtn.addActionListener(
 				new ActionListener()
@@ -198,15 +231,18 @@ public class SetTransitionOptionsDlg extends JDialog
 	//------------------------------------------------
 	public int getTransitionTypes()
 	{
-		// Return which radio button is selected
-		if(m_SlideRB.isSelected()) return 0;
-		else if(m_CrossFadeRB.isSelected()) return 1;
-                else if(m_FadetoBlackRB.isSelected()) return 2;
-                else if(m_FadetoWhiteRB.isSelected()) return 3;
-                else if(m_FadefromBlackRB.isSelected()) return 4;
-                else if(m_FadefromWhiteRB.isSelected()) return 5;
-                else if(m_RandomRB.isSelected()) return 6;
-		else return 7;
+		// Return which radio button is selected		
+		if(m_CrossFadeRB.isSelected()) return 0;
+                else if(m_FadetoBlackRB.isSelected()) return 1;
+                else if(m_FadetoWhiteRB.isSelected()) return 2;
+                else if(m_FadefromBlackRB.isSelected()) return 3;
+                else if(m_FadefromWhiteRB.isSelected()) return 4;
+                else if(m_SlideUpRB.isSelected()) return 5;
+                else if(m_SlideDownRB.isSelected()) return 6;
+                else if(m_SlideLeftRB.isSelected()) return 7;
+                else if(m_SlideRightRB.isSelected()) return 8;                
+                else if(m_RandomRB.isSelected()) return 9;
+		else return 10;
 	}
 	
 	

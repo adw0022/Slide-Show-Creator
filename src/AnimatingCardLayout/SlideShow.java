@@ -7,6 +7,7 @@ import java.awt.event.*;
 import java.io.*;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Properties;
 import java.util.Vector;
 import javax.sound.midi.InvalidMidiDataException;
@@ -50,14 +51,17 @@ public class SlideShow extends JFrame
    AnimatingCardLayout acl;
 
    Animation [] animations =
-   {
-      new SlideAnimation (), 
-      new FadeAnimation (),      
+   {      
+      new FadeAnimation (), //0     
       //++++++++++++++++++++++++++add specific Fade Animations
-      new FadeToBlackAnimation(),
-      new FadeToWhiteAnimation(),
-      new FadeFromBlackAnimation(),
-      new FadeFromWhiteAnimation()
+      new FadeToBlackAnimation(), //1
+      new FadeToWhiteAnimation(), //2
+      new FadeFromBlackAnimation(), //3
+      new FadeFromWhiteAnimation(), //4
+      new SlideUpAnimation(), //5
+      new SlideDownAnimation(), //6
+      new SlideLeftAnimation(), //7
+      new SlideRightAnimation() //8
    };
 
    static ArrayList<ImageIcon> images = new ArrayList<> ();
@@ -122,6 +126,8 @@ public class SlideShow extends JFrame
 
       JButton ffwrd; // The ffrwd button
       
+      JButton rwd; // The rewind button
+      
       JSlider progress; // Shows and sets current position in sound
 
       JLabel time; // Displays audioPosition as a number
@@ -175,6 +181,7 @@ public class SlideShow extends JFrame
         progress = new JSlider(0, audioLength, 0); // Shows position in sound
         time = new JLabel("0"); // Shows position as a #
         ffwrd = new JButton("ffwrd"); // ffwd button
+        rwd = new JButton("rewind"); // rewoind button
         
         // When clicked, start or stop playing the sound
         play.addActionListener(new ActionListener() {
@@ -186,7 +193,7 @@ public class SlideShow extends JFrame
           }
         });
 
-        // When clicked, start or stop playing the sound
+        // When clicked, fast forward the slideshow 
         ffwrd.addActionListener(new ActionListener() {
           public void actionPerformed(ActionEvent e) {
               
@@ -208,7 +215,39 @@ public class SlideShow extends JFrame
               
               SlideShow.this.timer.setDelay((int) (TIMER_DELAY / SpeedupFactor * m_iTimeDelay ));
           }
-        });
+        });//end frwd
+        
+        
+        // When clicked, rewind the slideshow 
+        rwd.addActionListener(new ActionListener() {
+          public void actionPerformed(ActionEvent e) {
+              
+              stop();
+              Collections.reverse(images);
+              index = (images.size() - index - 1) + 2;
+              
+               AnimatingCardLayout my_acl = (AnimatingCardLayout) pictures.getLayout();
+              
+              if (SpeedupFactor == 1.0) {
+                  System.out.println("i have sped up.");
+                  SpeedupFactor = 20.0;
+                  my_acl.setAnimationDuration ((int) (ANIM_DUR / SpeedupFactor));
+              }
+              else {
+                  SpeedupFactor = 1.0;
+                  my_acl.setAnimationDuration ((int) (ANIM_DUR / SpeedupFactor));
+              }
+              
+              pictures.setLayout (my_acl);//assign layout to pictures            
+              
+              //speed up main timer between slides
+              
+              SlideShow.this.timer.setDelay((int) (TIMER_DELAY / SpeedupFactor * m_iTimeDelay ));
+       
+              play();
+          }
+        });//end frwd
+        
         
         
         // Whenever the slider value changes, first update the time label.
@@ -239,6 +278,7 @@ public class SlideShow extends JFrame
         Box row = Box.createHorizontalBox();
         row.add(play);
         row.add(ffwrd);
+        row.add(rwd);
         row.add(progress);
         row.add(time);
         
@@ -499,7 +539,7 @@ public class SlideShow extends JFrame
       //setDefaultCloseOperation (EXIT_ON_CLOSE);
 
       pictures = new JPanel ();
-      pictures.setBackground (Color.GRAY);
+      pictures.setBackground (Color.WHITE);
 
       acl = new AnimatingCardLayout ();
       acl.setAnimationDuration ((int) (ANIM_DUR / SpeedupFactor));
@@ -528,18 +568,21 @@ public class SlideShow extends JFrame
                   }
                   
                  // +++++++++++++++++non-random selection of transition 
-                 // use one of the following codes:
-                 
-                 // [0]- slide      
-                 // [1]- cross-fade 
-                 // [2]- fade-to-black
-                 // [3]- fade-to-white
-                 // [4]- fade-from-black
-                 // [5]- fade-from-white
-                 // [6]- random
+                 // use one of the following codes:                 
+                    
+                 // [0]- cross-fade 
+                 // [1]- fade-to-black
+                 // [2]- fade-to-white
+                 // [3]- fade-from-black
+                 // [4]- fade-from-white
+                 // [5]- slide-up   
+                 // [6]- slide-down   
+                 // [7]- slide-left   
+                 // [8]- slide-right   
+                 // [9]- random
                  String temp = (String) m_vTransitionNumber.get(index);
                  int temp2 = Integer.valueOf(temp);
-                 if (temp2 != 6)
+                 if (temp2 != 9)
                  {
                     
                     temp = (String) m_vTransitionNumber.get(index);

@@ -1,0 +1,2 @@
+pkgImageViewer.CustomRenderer
+pkgImageViewer.TableIcon
